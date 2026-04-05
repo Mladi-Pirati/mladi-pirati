@@ -1,0 +1,18 @@
+---
+import { heroContent } from "../config/site";
+import SignupForm from "./SignupForm.astro";
+import SiteNav from "./SiteNav.astro";
+---
+
+<section class="hero" id="hero">
+  <canvas class="hero-ascii" id="hero-ascii" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <h1 class="form-preamble">{heroContent.headline}</h1>
+    <p class="hero-quote-text">
+      {heroContent.summary}<span id="hero-quote-loop"></span>
+    </p>
+    <SignupForm />
+    <p class="hero-quote-cta">{heroContent.cta}</p>
+  </div>
+  <SiteNav />
+</section>

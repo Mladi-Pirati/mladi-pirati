@@ -1,0 +1,27 @@
+---
+import { programContent } from "../config/site";
+---
+
+<section class="section section--alt" id="program" aria-labelledby="program-title">
+  <div class="container">
+    <div class="content-block">
+      <h2 class="section-title" id="program-title">
+        Nas <span class="accent">program</span>
+      </h2>
+      <p class="section-subtitle">{programContent.subtitle}</p>
+
+      <div class="pillars-list">
+        {
+          programContent.items.map((item) => (
+            <article class="pillar-row">
+              <div class="pillar-content">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

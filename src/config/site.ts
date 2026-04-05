@@ -1,0 +1,96 @@
+export interface NavItem {
+  href: `#${string}`;
+  label: string;
+  highlighted?: boolean;
+}
+
+export interface ProgramItem {
+  title: string;
+  description: string;
+}
+
+export interface FooterLink {
+  href: string;
+  label: string;
+}
+
+export interface SocialLink {
+  href: string;
+  label: string;
+}
+
+const fallbackSiteUrl = "https://mladipirati.si";
+
+export const siteMetadata = {
+  name: "Mladi Pirati",
+  shortName: "Mladi Pirati",
+  language: "sl",
+  locale: "sl_SI",
+  siteUrl: (process.env.SITE_URL ?? fallbackSiteUrl).replace(/\/$/, ""),
+  title: "Mladi Pirati | Podmladek Piratske stranke Slovenije",
+  description:
+    "Mladi Pirati smo podmladek Piratske stranke Slovenije. Zavzemamo se za digitalne pravice, transparentnost, svobodo in prihodnost mladih.",
+  themeColor: "#000000",
+  ogImage: "/logos/Pirati_MladiPirati_Logo_3.png",
+  footerText: "Podmladek Piratske stranke Slovenije.",
+} as const;
+
+export const navigationItems: NavItem[] = [
+  { href: "#o-nas", label: "O nas" },
+  { href: "#program", label: "Program" },
+  { href: "#hero", label: "Pridruži se", highlighted: true },
+];
+
+export const heroContent = {
+  headline: "Svet je v razsulu.",
+  summary: "Vsi, ki ",
+  quotePhrases: [
+    { text: "nimate svojega stanovanja.", accent: null },
+    { text: "ste naveličani korupcije.", accent: null },
+    { text: "hočete, da se to spremeni", accent: "spremeni" },
+  ],
+  cta: "Podmladek Piratske stranke Slovenije",
+} as const;
+
+export const aboutContent = {
+  title: "O nas",
+  subtitle:
+    "Gradimo prostor za mlade, ki hocejo politiko odprto ljudem, ne zaprto za vrati.",
+  paragraphs: [
+    "Mladi Pirati smo podmladek Piratske stranke Slovenije. Povezujemo mlade, ki jih zanimajo digitalne pravice, transparentno odlocanje in druzba, v kateri tehnologija sluzi ljudem.",
+    "Zagovarjamo odprte institucije, dostopno znanje in prihodnost, v kateri mladi ne ostanejo brez glasu, stanovanja ali vpliva na skupne odlocitve.",
+    "Prostor zelimo odpreti za ljudi, ki bi radi sodelovali, predlagali resitve in z majhnimi koraki gradili bolj posteno drzavo.",
+  ],
+} as const;
+
+export const programContent = {
+  title: "Nas program",
+  subtitle:
+    "Teme, ki jih odpiramo, so prakticne: od zasebnosti in znanja do dostojnega zivljenja mladih.",
+  items: [
+    {
+      title: "Digitalne pravice",
+      description:
+        "Branimo zasebnost, svoboden internet in tehnologijo, ki ljudi opolnomoci namesto nadzira.",
+    },
+    {
+      title: "Transparentna drzava",
+      description:
+        "Zelimo odlocanje, ki je preverljivo, razumljivo in odprto za javnost, ne samo za insajderje.",
+    },
+    {
+      title: "Dostopno znanje",
+      description:
+        "Podpiramo odprto znanje, kakovostno javno izobrazevanje in pogoje, v katerih se lahko mladi razvijajo.",
+    },
+    {
+      title: "Prihodnost mladih",
+      description:
+        "Stanovanja, delo, mobilnost in kakovostno zivljenje niso luksuz, ampak osnova za samostojno prihodnost.",
+    },
+  ] satisfies ProgramItem[],
+} as const;
+
+export const footerLinks: FooterLink[] = [];
+
+export const socialLinks: SocialLink[] = [];

@@ -1,0 +1,18 @@
+---
+import { aboutContent } from "../config/site";
+---
+
+<section class="section" id="o-nas" aria-labelledby="o-nas-title">
+  <div class="container">
+    <div class="content-block">
+      <h2 class="section-title" id="o-nas-title">
+        O <span class="accent">nas</span>
+      </h2>
+      <p class="section-subtitle">{aboutContent.subtitle}</p>
+
+      <div class="about-text">
+        {aboutContent.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,58 @@
+---
+import { siteMetadata } from "../config/site";
+import "../styles/site.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = siteMetadata.title,
+  description = siteMetadata.description,
+  canonicalPath = "/",
+  noindex = false,
+} = Astro.props;
+
+const baseUrl = Astro.site ?? new URL(siteMetadata.siteUrl);
+const canonicalUrl = new URL(canonicalPath, baseUrl).toString();
+const pageTitle =
+  title === siteMetadata.title ? title : `${title} | ${siteMetadata.shortName}`;
+const ogImage = new URL(siteMetadata.ogImage, baseUrl).toString();
+---
+
+<!doctype html>
+<html lang={siteMetadata.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={siteMetadata.themeColor} />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteMetadata.shortName} />
+    <meta property="og:locale" content={siteMetadata.locale} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Monda:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Preskoci na vsebino</a>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,35 @@
+---
+import { footerLinks, siteMetadata, socialLinks } from "../config/site";
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-text-row">
+        <span class="footer-brand-text">{siteMetadata.footerText}</span>
+
+        {
+          footerLinks.length > 0 && (
+            <ul class="footer-links">
+              {footerLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+            </ul>
+          )
+        }
+      </div>
+    </div>
+
+    <hr class="footer-divider" />
+
+    <div class="footer-bottom">
+      <p>&copy; 2018-2026 {siteMetadata.shortName}. Vse pravice pridrzane.</p>
+
+      {
+        socialLinks.length > 0 && (
+          <div class="footer-socials">
+            {socialLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</footer>

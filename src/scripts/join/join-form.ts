@@ -1,16 +1,17 @@
 const FIELD_NAMES = [
   "fullName",
   "dateOfBirth",
-  "birthPlace",
+  "placeOfBirth",
   "streetAddress",
-  "cityPostalCode",
-  "region",
+  "cityAndPostalCode",
+  "residenceRegion",
   "email",
   "phone",
   "participationMode",
   "discordUsername",
-  "consentDataProcessing",
-  "acceptStatuteAndProgram",
+  "motivation",
+  "consentsToDataProcessing",
+  "acceptsStatuteAndProgram",
 ] as const;
 
 type JoinFieldName = (typeof FIELD_NAMES)[number];
@@ -48,6 +49,8 @@ export function initJoinForm(): void {
     clearAllErrors(form);
     setStatus(status, "Pošiljamo prijavnico…", "muted");
 
+    const requestBody = serializeForm(form);
+
     isSubmitting = true;
     form.classList.add("is-submitting");
     setSubmittingState(form, true);
@@ -59,7 +62,7 @@ export function initJoinForm(): void {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(serializeForm(form)),
+        body: JSON.stringify(requestBody),
       });
       const payload = (await readJson(response)) as JoinRequestResponse | null;
 
@@ -133,16 +136,17 @@ function serializeForm(form: HTMLFormElement) {
   return {
     fullName: getString(formData, "fullName"),
     dateOfBirth: getString(formData, "dateOfBirth"),
-    birthPlace: getString(formData, "birthPlace"),
+    placeOfBirth: getString(formData, "placeOfBirth"),
     streetAddress: getString(formData, "streetAddress"),
-    cityPostalCode: getString(formData, "cityPostalCode"),
-    region: getString(formData, "region"),
+    cityAndPostalCode: getString(formData, "cityAndPostalCode"),
+    residenceRegion: getString(formData, "residenceRegion"),
     email: getString(formData, "email"),
     phone: getString(formData, "phone"),
     participationMode: getString(formData, "participationMode"),
     discordUsername: getString(formData, "discordUsername"),
-    consentDataProcessing: formData.get("consentDataProcessing") === "true",
-    acceptStatuteAndProgram: formData.get("acceptStatuteAndProgram") === "true",
+    motivation: getString(formData, "motivation"),
+    consentsToDataProcessing: formData.get("consentsToDataProcessing") === "true",
+    acceptsStatuteAndProgram: formData.get("acceptsStatuteAndProgram") === "true",
   };
 }
 
@@ -218,14 +222,15 @@ function clearFieldError(form: HTMLFormElement, fieldName: JoinFieldName): void 
 
 function setSubmittingState(form: HTMLFormElement, disabled: boolean): void {
   form
-    .querySelectorAll<HTMLButtonElement | HTMLInputElement | HTMLSelectElement>(
-      "button, input, select",
-    )
+    .querySelectorAll<
+      HTMLButtonElement | HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >("button, input, select, textarea")
     .forEach((element) => {
       if (
         element instanceof HTMLInputElement ||
         element instanceof HTMLButtonElement ||
-        element instanceof HTMLSelectElement
+        element instanceof HTMLSelectElement ||
+        element instanceof HTMLTextAreaElement
       ) {
         element.disabled = disabled;
       }

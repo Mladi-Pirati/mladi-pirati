@@ -42,16 +42,17 @@ export const JOIN_FORM_SUCCESS_COPY = [
 export const JOIN_FIELD_NAMES = [
   "fullName",
   "dateOfBirth",
-  "birthPlace",
+  "placeOfBirth",
   "streetAddress",
-  "cityPostalCode",
-  "region",
+  "cityAndPostalCode",
+  "residenceRegion",
   "email",
   "phone",
   "participationMode",
   "discordUsername",
-  "consentDataProcessing",
-  "acceptStatuteAndProgram",
+  "motivation",
+  "consentsToDataProcessing",
+  "acceptsStatuteAndProgram",
 ] as const;
 
 export type JoinRequestFieldName = (typeof JOIN_FIELD_NAMES)[number];
@@ -61,16 +62,17 @@ export type ParticipationModeOption = (typeof PARTICIPATION_MODES)[number];
 export interface JoinRequestPayload {
   fullName: string;
   dateOfBirth: string;
-  birthPlace: string;
+  placeOfBirth: string;
   streetAddress: string;
-  cityPostalCode: string;
-  region: string;
+  cityAndPostalCode: string;
+  residenceRegion: string;
   email: string;
   phone: string;
   participationMode: string;
   discordUsername: string;
-  consentDataProcessing: boolean;
-  acceptStatuteAndProgram: boolean;
+  motivation: string;
+  consentsToDataProcessing: boolean;
+  acceptsStatuteAndProgram: boolean;
 }
 
 export type JoinRequestFieldErrors = Partial<
@@ -100,16 +102,17 @@ export function normalizeJoinRequestInput(
   return {
     fullName: getString(source.fullName),
     dateOfBirth: getString(source.dateOfBirth),
-    birthPlace: getString(source.birthPlace),
+    placeOfBirth: getString(source.placeOfBirth),
     streetAddress: getString(source.streetAddress),
-    cityPostalCode: getString(source.cityPostalCode),
-    region: getString(source.region),
+    cityAndPostalCode: getString(source.cityAndPostalCode),
+    residenceRegion: getString(source.residenceRegion),
     email: getString(source.email),
     phone: getString(source.phone),
     participationMode: getString(source.participationMode),
     discordUsername: getString(source.discordUsername),
-    consentDataProcessing: getBoolean(source.consentDataProcessing),
-    acceptStatuteAndProgram: getBoolean(source.acceptStatuteAndProgram),
+    motivation: getString(source.motivation),
+    consentsToDataProcessing: getBoolean(source.consentsToDataProcessing),
+    acceptsStatuteAndProgram: getBoolean(source.acceptsStatuteAndProgram),
   };
 }
 
@@ -134,10 +137,10 @@ export function validateJoinRequestInput(
       "Članstvo je odprto za osebe med 15. in 32. letom starosti.";
   }
 
-  if (data.birthPlace.length < 2) {
-    fieldErrors.birthPlace = "Vnesi kraj rojstva.";
-  } else if (data.birthPlace.length > 120) {
-    fieldErrors.birthPlace = "Kraj rojstva naj bo krajši od 120 znakov.";
+  if (data.placeOfBirth.length < 2) {
+    fieldErrors.placeOfBirth = "Vnesi kraj rojstva.";
+  } else if (data.placeOfBirth.length > 160) {
+    fieldErrors.placeOfBirth = "Kraj rojstva naj bo krajši od 160 znakov.";
   }
 
   if (data.streetAddress.length < 5) {
@@ -147,15 +150,15 @@ export function validateJoinRequestInput(
       "Naslov stalnega prebivališča naj bo krajši od 160 znakov.";
   }
 
-  if (data.cityPostalCode.length < 3) {
-    fieldErrors.cityPostalCode = "Vnesi kraj in poštno številko.";
-  } else if (data.cityPostalCode.length > 120) {
-    fieldErrors.cityPostalCode =
-      "Kraj in poštna številka naj bosta krajša od 120 znakov.";
+  if (data.cityAndPostalCode.length < 3) {
+    fieldErrors.cityAndPostalCode = "Vnesi kraj in poštno številko.";
+  } else if (data.cityAndPostalCode.length > 160) {
+    fieldErrors.cityAndPostalCode =
+      "Kraj in poštna številka naj bosta krajša od 160 znakov.";
   }
 
-  if (!REGIONS.includes(data.region as RegionOption)) {
-    fieldErrors.region = "Izberi regijo prebivališča.";
+  if (!REGIONS.includes(data.residenceRegion as RegionOption)) {
+    fieldErrors.residenceRegion = "Izberi regijo prebivališča.";
   }
 
   if (!emailPattern.test(data.email)) {
@@ -183,13 +186,17 @@ export function validateJoinRequestInput(
       "Uporabniško ime na Discordu naj bo krajše od 120 znakov.";
   }
 
-  if (!data.consentDataProcessing) {
-    fieldErrors.consentDataProcessing =
+  if (data.motivation.length > 4000) {
+    fieldErrors.motivation = "Motivacija naj bo krajša od 4000 znakov.";
+  }
+
+  if (!data.consentsToDataProcessing) {
+    fieldErrors.consentsToDataProcessing =
       "Za oddajo moraš potrditi soglasje za obdelavo osebnih podatkov.";
   }
 
-  if (!data.acceptStatuteAndProgram) {
-    fieldErrors.acceptStatuteAndProgram =
+  if (!data.acceptsStatuteAndProgram) {
+    fieldErrors.acceptsStatuteAndProgram =
       "Za oddajo moraš potrditi, da sprejemaš statut in program.";
   }
 

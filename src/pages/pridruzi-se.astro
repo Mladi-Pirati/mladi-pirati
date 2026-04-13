@@ -49,8 +49,8 @@ const { min, max } = getJoinDateBounds(new Date());
         submitted ? (
           <JoinSuccessPanel />
         ) : (
-          <div class="">
-          <div class="join-page-intro">
+          <div class="join-form-column">
+            <div class="join-page-intro">
               <p class="join-kicker">Pristopnica</p>
               <h1 class="join-page-title">Prijava za članstvo v Mladih Piratih</h1>
 
@@ -131,21 +131,21 @@ const { min, max } = getJoinDateBounds(new Date());
                       <p class="join-field-error" data-error-for="dateOfBirth"></p>
                     </div>
 
-                    <div class="join-field" data-field-wrapper="birthPlace">
-                      <label class="join-label" for="birthPlace">
+                    <div class="join-field" data-field-wrapper="placeOfBirth">
+                      <label class="join-label" for="placeOfBirth">
                         Kraj rojstva *
                       </label>
                       <input
                         class="join-input"
-                        id="birthPlace"
-                        maxlength="120"
+                        id="placeOfBirth"
+                        maxlength="160"
                         minlength="2"
-                        name="birthPlace"
+                        name="placeOfBirth"
                         placeholder="npr. Celje"
                         required
                         type="text"
                       />
-                      <p class="join-field-error" data-error-for="birthPlace"></p>
+                      <p class="join-field-error" data-error-for="placeOfBirth"></p>
                     </div>
                   </div>
                 </section>
@@ -183,29 +183,29 @@ const { min, max } = getJoinDateBounds(new Date());
                       <p class="join-field-error" data-error-for="streetAddress"></p>
                     </div>
 
-                    <div class="join-field" data-field-wrapper="cityPostalCode">
-                      <label class="join-label" for="cityPostalCode">
+                    <div class="join-field" data-field-wrapper="cityAndPostalCode">
+                      <label class="join-label" for="cityAndPostalCode">
                         Kraj in poštna številka *
                       </label>
                       <input
                         autocomplete="postal-code"
                         class="join-input"
-                        id="cityPostalCode"
-                        maxlength="120"
+                        id="cityAndPostalCode"
+                        maxlength="160"
                         minlength="3"
-                        name="cityPostalCode"
+                        name="cityAndPostalCode"
                         placeholder="npr. 1000 Ljubljana"
                         required
                         type="text"
                       />
-                      <p class="join-field-error" data-error-for="cityPostalCode"></p>
+                      <p class="join-field-error" data-error-for="cityAndPostalCode"></p>
                     </div>
 
-                    <div class="join-field" data-field-wrapper="region">
-                      <label class="join-label" for="region">
+                    <div class="join-field" data-field-wrapper="residenceRegion">
+                      <label class="join-label" for="residenceRegion">
                         Regija prebivališča *  <span class="join-label-help">Za potrebe lokalnih volitev in lokalnih odborov.</span>
                       </label>
-                      <select class="join-select" id="region" name="region" required>
+                      <select class="join-select" id="residenceRegion" name="residenceRegion" required>
                         <option value="">Izberi regijo. </option>
                         {
                           REGIONS.map((region) => (
@@ -213,7 +213,7 @@ const { min, max } = getJoinDateBounds(new Date());
                           ))
                         }
                       </select>
-                      <p class="join-field-error" data-error-for="region"></p>
+                      <p class="join-field-error" data-error-for="residenceRegion"></p>
                     </div>
 
                     <div class="join-field" data-field-wrapper="email">
@@ -307,6 +307,21 @@ const { min, max } = getJoinDateBounds(new Date());
                       </p>
                       <p class="join-field-error" data-error-for="discordUsername"></p>
                     </div>
+
+                    <div class="join-field join-field-wide" data-field-wrapper="motivation">
+                      <label class="join-label" for="motivation">
+                        Zakaj želiš postati član Mladih Piratov?
+                      </label>
+                      <textarea
+                        class="join-input"
+                        id="motivation"
+                        maxlength="4000"
+                        name="motivation"
+                        placeholder="Napiši nam nekaj besed o sebi in zakaj te zanima članstvo..."
+                        rows="4"
+                      ></textarea>
+                      <p class="join-field-error" data-error-for="motivation"></p>
+                    </div>
                   </div>
                 </section>
 
@@ -323,13 +338,13 @@ const { min, max } = getJoinDateBounds(new Date());
                     </div>
                   </div>
 
-                  <fieldset class="join-fieldset" data-field-wrapper="consentDataProcessing">
+                  <fieldset class="join-fieldset" data-field-wrapper="consentsToDataProcessing">
                     <legend class="join-label bottom-spacing">
                       Soglasje za obdelavo osebnih podatkov *
                     </legend>
                     <label class="join-choice join-choice-checkbox">
                       <input
-                        name="consentDataProcessing"
+                        name="consentsToDataProcessing"
                         required
                         type="checkbox"
                         value="true"
@@ -347,16 +362,16 @@ const { min, max } = getJoinDateBounds(new Date());
                         </span>
                       </span>
                     </label>
-                    <p class="join-field-error" data-error-for="consentDataProcessing"></p>
+                    <p class="join-field-error" data-error-for="consentsToDataProcessing"></p>
                   </fieldset>
 
-                  <fieldset class="join-fieldset" data-field-wrapper="acceptStatuteAndProgram">
+                  <fieldset class="join-fieldset" data-field-wrapper="acceptsStatuteAndProgram">
                     <legend class="join-label bottom-spacing">
                       Potrditev statuta in programa *
                     </legend>
                     <label class="join-choice join-choice-checkbox">
                       <input
-                        name="acceptStatuteAndProgram"
+                        name="acceptsStatuteAndProgram"
                         required
                         type="checkbox"
                         value="true"
@@ -374,7 +389,7 @@ const { min, max } = getJoinDateBounds(new Date());
                         </span>
                       </span>
                     </label>
-                    <p class="join-field-error" data-error-for="acceptStatuteAndProgram"></p>
+                    <p class="join-field-error" data-error-for="acceptsStatuteAndProgram"></p>
                   </fieldset>
                 </section>
 

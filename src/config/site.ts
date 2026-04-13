@@ -54,7 +54,7 @@ export const heroContent = {
 
 export const heroJoinCardContent = {
   eyebrow: "Pristopnica",
-  title: "Prodruži se!",
+  title: "Pridruži se!",
   description:
     "Prijavnica zbere vse podatke in izjave, ki jih potrebujemo za obravnavo članstva.",
   bullets: [
@@ -71,14 +71,14 @@ export const aboutContent = {
   subtitle:
     "Gradimo prostor za mlade, ki hocejo politiko odprto ljudem, ne zaprto za vrati.",
   paragraphs: [
-    "Mladi Pirati smo podmladek Piratske stranke Slovenije. Povezujemo mlade, ki jih zanimajo digitalne pravice, transparentno odlocanje in druzba, v kateri tehnologija sluzi ljudem.",
-    "Zagovarjamo odprte institucije, dostopno znanje in prihodnost, v kateri mladi ne ostanejo brez glasu, stanovanja ali vpliva na skupne odlocitve.",
-    "Prostor zelimo odpreti za ljudi, ki bi radi sodelovali, predlagali resitve in z majhnimi koraki gradili bolj posteno drzavo.",
+    "Mladi Pirati smo glas generacije, ki ji je dovolj dragih najemnin, praznih obljub in prihodnosti, o kateri odločajo drugi. Verjamemo, da mladi ne smemo ostati le opazovalci politike, ki nas zadeva najbolj neposredno, od stanovanj in izobraževanja do digitalnih pravic, duševnega zdravja in dostojnega dela.",
+    "Zavzemamo se za svoboden internet, pravico do zasebnosti, odprto znanje, dostopna stanovanja, kakovostne javne storitve in družbo, v kateri imajo mladi resnično možnost za samostojno, varno in dostojno življenje. Hočemo skupnost, ki temelji na svobodi, solidarnosti, transparentnosti in pogumu za spremembe.",
+    "Takšne prihodnosti pa ne bomo le čakali, ampak jo bomo skupaj ustvarili.",
   ],
 } as const;
 
 export const programContent = {
-  title: "Nas program",
+  title: "Naš program",
   subtitle:
     "Teme, ki jih odpiramo, so prakticne: od zasebnosti in znanja do dostojnega zivljenja mladih.",
   items: [

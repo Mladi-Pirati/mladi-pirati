@@ -1,0 +1,10 @@
+.astro
+.env.*
+.git
+.gitignore
+.pnpm-store
+.vscode
+dist
+node_modules
+
+!.env.example

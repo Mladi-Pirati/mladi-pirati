@@ -20,6 +20,12 @@ export interface SocialLink {
 }
 
 const fallbackSiteUrl = "https://mladipirati.si";
+// Temporary safety default for public development deployments.
+// Set ALLOW_INDEXING=true when the production site is ready for indexing.
+const indexingEnabled = import.meta.env.ALLOW_INDEXING === "true";
+
+export const blockedRobotsPolicy =
+  "noindex, nofollow, noarchive, nosnippet, noimageindex";
 
 export const siteMetadata = {
   name: "Mladi Pirati",
@@ -27,6 +33,7 @@ export const siteMetadata = {
   language: "sl",
   locale: "sl_SI",
   siteUrl: (process.env.SITE_URL ?? fallbackSiteUrl).replace(/\/$/, ""),
+  indexingEnabled,
   title: "Mladi Pirati | Podmladek Piratske stranke Slovenije",
   description:
     "Mladi Pirati smo podmladek Piratske stranke Slovenije. Zavzemamo se za digitalne pravice, transparentnost, svobodo in prihodnost mladih.",

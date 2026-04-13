@@ -1,6 +1,7 @@
 /// <reference types="astro/client" />
 
 interface ImportMetaEnv {
+  readonly ALLOW_INDEXING?: string;
   readonly APPLICATIONS_RECEIVER_MEMBERSHIP_ENDPOINT?: string;
   readonly APPLICATIONS_RECEIVER_SHARED_SECRET?: string;
 }

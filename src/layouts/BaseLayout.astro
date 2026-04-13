@@ -1,5 +1,5 @@
 ---
-import { siteMetadata } from "../config/site";
+import { blockedRobotsPolicy, siteMetadata } from "../config/site";
 import "../styles/site.css";
 
 interface Props {
@@ -21,6 +21,7 @@ const canonicalUrl = new URL(canonicalPath, baseUrl).toString();
 const pageTitle =
   title === siteMetadata.title ? title : `${title} | ${siteMetadata.shortName}`;
 const ogImage = new URL(siteMetadata.ogImage, baseUrl).toString();
+const shouldNoindex = noindex || !siteMetadata.indexingEnabled;
 ---
 
 <!doctype html>
@@ -49,7 +50,12 @@ const ogImage = new URL(siteMetadata.ogImage, baseUrl).toString();
       href="https://fonts.googleapis.com/css2?family=Monda:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {shouldNoindex && (
+      <>
+        <meta name="robots" content={blockedRobotsPolicy} />
+        <meta name="googlebot" content={blockedRobotsPolicy} />
+      </>
+    )}
   </head>
   <body>
     <a class="skip-link" href="#main-content">Preskoci na vsebino</a>

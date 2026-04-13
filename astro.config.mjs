@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 const site = (process.env.SITE_URL ?? 'https://mladipirati.si').replace(/\/$/, '');
+const allowIndexing = process.env.ALLOW_INDEXING === 'true';
 
 export default defineConfig({
   output: 'server',
@@ -12,5 +13,5 @@ export default defineConfig({
     mode: 'standalone',
   }),
   site,
-  integrations: [sitemap()],
+  integrations: allowIndexing ? [sitemap()] : [],
 });

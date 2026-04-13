@@ -76,6 +76,10 @@ button {
   touch-action: manipulation;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,

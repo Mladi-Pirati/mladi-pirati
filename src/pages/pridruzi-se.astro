@@ -1,0 +1,409 @@
+---
+import JoinSuccessPanel from "../components/JoinSuccessPanel.astro";
+import { siteMetadata } from "../config/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  DISCORD_URL,
+  JOIN_FORM_INTRO,
+  JOIN_FORM_PATH,
+  JOIN_REQUEST_API_PATH,
+  PARTICIPATION_MODES,
+  PROGRAM_URL,
+  REGIONS,
+  STATUTE_URL,
+  getJoinDateBounds,
+} from "../internal/join-form";
+
+const submitted = Astro.url.searchParams.get("submitted") === "1";
+const submissionError = Astro.url.searchParams.get("error") === "1";
+const { min, max } = getJoinDateBounds(new Date());
+---
+
+<BaseLayout
+  title="Pridruži se"
+  description="Uradna pristopnica za članstvo v Mladih Piratih."
+  canonicalPath={JOIN_FORM_PATH}
+>
+  <main class="join-page" id="main-content">
+    <header class="join-topbar">
+      <a class="join-brand" href="/">
+        <img
+          src="/logos/Pirati_MladiPirati_Logo_3.png"
+          alt={siteMetadata.shortName}
+          width="44"
+          height="44"
+        />
+        <span class="join-brand-copy">
+          <span class="join-brand-name">{siteMetadata.shortName}</span>
+          <span class="join-brand-tagline">Podmladek Piratske stranke Slovenije</span>
+        </span>
+      </a>
+
+      <a class="join-secondary-link" href="/#hero">
+        ← Nazaj na prvo stran
+      </a>
+    </header>
+
+    <section class="join-page-shell">
+      {
+        submitted ? (
+          <JoinSuccessPanel />
+        ) : (
+          <div class="">
+          <div class="join-page-intro">
+              <p class="join-kicker">Pristopnica</p>
+              <h1 class="join-page-title">Prijava za članstvo v Mladih Piratih</h1>
+
+              {
+                JOIN_FORM_INTRO.map((paragraph) => (
+                  <p class="join-page-copy">{paragraph}</p>
+                ))
+              }
+            </div>
+            <section class="join-panel" id="join-form-shell">
+              <div class="join-panel-header">
+                <h2 class="join-panel-title">Izpolni pristopnico</h2>
+                <p class="join-panel-copy">
+                  Polja označena z zvezdico so obvezna. Po oddaji prijavo pregleda
+                  upravni odbor.
+                </p>
+              </div>
+
+              {submissionError && (
+                <p class="join-status is-error">
+                  Oddaja trenutno ni uspela. Preveri podatke in poskusi znova.
+                </p>
+              )}
+
+              <form
+                action={JOIN_REQUEST_API_PATH}
+                class="join-form"
+                id="join-request-form"
+                method="post"
+              >
+                <section class="join-form-section" aria-labelledby="join-personal-title">
+                  <div class="join-section-header">
+                    <p class="join-section-kicker">1</p>
+                    <div>
+                      <h3 class="join-section-title" id="join-personal-title">
+                        Osebni podatki
+                      </h3>
+                      <p class="join-section-copy">
+                        Osnovne informacije, ki jih potrebujemo za obravnavo
+                        pristopnice.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="join-grid">
+                    <div class="join-field join-field-wide" data-field-wrapper="fullName">
+                      <label class="join-label" for="fullName">
+                        Ime in priimek *
+                      </label>
+                      <input
+                        autocomplete="name"
+                        class="join-input"
+                        id="fullName"
+                        maxlength="160"
+                        minlength="2"
+                        name="fullName"
+                        placeholder="npr. Ana Novak"
+                        required
+                        type="text"
+                      />
+                      <p class="join-field-error" data-error-for="fullName"></p>
+                    </div>
+
+                    <div class="join-field" data-field-wrapper="dateOfBirth">
+                      <label class="join-label" for="dateOfBirth">
+                        Datum rojstva *
+                      </label>
+                      <input
+                        autocomplete="bday"
+                        class="join-input"
+                        id="dateOfBirth"
+                        max={max}
+                        min={min}
+                        name="dateOfBirth"
+                        required
+                        type="date"
+                      />
+                      <p class="join-field-error" data-error-for="dateOfBirth"></p>
+                    </div>
+
+                    <div class="join-field" data-field-wrapper="birthPlace">
+                      <label class="join-label" for="birthPlace">
+                        Kraj rojstva *
+                      </label>
+                      <input
+                        class="join-input"
+                        id="birthPlace"
+                        maxlength="120"
+                        minlength="2"
+                        name="birthPlace"
+                        placeholder="npr. Celje"
+                        required
+                        type="text"
+                      />
+                      <p class="join-field-error" data-error-for="birthPlace"></p>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="join-form-section" aria-labelledby="join-contact-title">
+                  <div class="join-section-header">
+                    <p class="join-section-kicker">2</p>
+                    <div>
+                      <h3 class="join-section-title" id="join-contact-title">
+                        Kontakt in prebivališče
+                      </h3>
+                      <p class="join-section-copy">
+                        Podatki za članstvo, obveščanje in povezovanje z lokalnim
+                        okoljem.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="join-grid">
+                    <div class="join-field join-field-wide" data-field-wrapper="streetAddress">
+                      <label class="join-label" for="streetAddress">
+                        Stalno prebivališče (ulica, hišna številka) *
+                      </label>
+                      <input
+                        autocomplete="street-address"
+                        class="join-input"
+                        id="streetAddress"
+                        maxlength="160"
+                        minlength="5"
+                        name="streetAddress"
+                        placeholder="npr. Trubarjeva cesta 24"
+                        required
+                        type="text"
+                      />
+                      <p class="join-field-error" data-error-for="streetAddress"></p>
+                    </div>
+
+                    <div class="join-field" data-field-wrapper="cityPostalCode">
+                      <label class="join-label" for="cityPostalCode">
+                        Kraj in poštna številka *
+                      </label>
+                      <input
+                        autocomplete="postal-code"
+                        class="join-input"
+                        id="cityPostalCode"
+                        maxlength="120"
+                        minlength="3"
+                        name="cityPostalCode"
+                        placeholder="npr. 1000 Ljubljana"
+                        required
+                        type="text"
+                      />
+                      <p class="join-field-error" data-error-for="cityPostalCode"></p>
+                    </div>
+
+                    <div class="join-field" data-field-wrapper="region">
+                      <label class="join-label" for="region">
+                        Regija prebivališča *  <span class="join-label-help">Za potrebe lokalnih volitev in lokalnih odborov.</span>
+                      </label>
+                      <select class="join-select" id="region" name="region" required>
+                        <option value="">Izberi regijo. </option>
+                        {
+                          REGIONS.map((region) => (
+                            <option value={region}>{region}</option>
+                          ))
+                        }
+                      </select>
+                      <p class="join-field-error" data-error-for="region"></p>
+                    </div>
+
+                    <div class="join-field" data-field-wrapper="email">
+                      <label class="join-label" for="email">
+                        E-pošta *
+                      </label>
+                      <input
+                        autocomplete="email"
+                        class="join-input"
+                        id="email"
+                        maxlength="160"
+                        name="email"
+                        placeholder="ime@primer.si"
+                        required
+                        type="email"
+                      />
+                      <p class="join-field-error" data-error-for="email"></p>
+                    </div>
+
+                    <div class="join-field" data-field-wrapper="phone">
+                      <label class="join-label" for="phone">
+                        Telefonska številka
+                      </label>
+                      <input
+                        autocomplete="tel"
+                        class="join-input"
+                        id="phone"
+                        maxlength="40"
+                        name="phone"
+                        placeholder="npr. 031 123 456"
+                        type="tel"
+                      />
+                      <p class="join-field-error" data-error-for="phone"></p>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="join-form-section" aria-labelledby="join-participation-title">
+                  <div class="join-section-header">
+                    <p class="join-section-kicker">3</p>
+                    <div>
+                      <h3 class="join-section-title" id="join-participation-title">
+                        Sodelovanje
+                      </h3>
+                      <p class="join-section-copy">
+                        Povej nam, kako želiš sodelovati in kako te najlažje
+                        vključimo naprej.
+                      </p>
+                    </div>
+                  </div>
+
+                  <fieldset class="join-fieldset" data-field-wrapper="participationMode">
+                    <legend class="join-label bottom-spacing">Oblika sodelovanja *</legend>
+                    <div class="join-choice-group">
+                      {
+                        PARTICIPATION_MODES.map((mode) => (
+                          <label class="join-choice">
+                            <input
+                              name="participationMode"
+                              required
+                              type="radio"
+                              value={mode}
+                            />
+                            <span class="join-choice-copy">{mode}</span>
+                          </label>
+                        ))
+                      }
+                    </div>
+                    <p class="join-field-error" data-error-for="participationMode"></p>
+                  </fieldset>
+
+                  <div class="join-grid">
+                    <div class="join-field join-field-wide" data-field-wrapper="discordUsername">
+                      <label class="join-label" for="discordUsername">
+                        Uporabniško ime na Discordu
+                      </label>
+                      <input
+                        autocapitalize="none"
+                        autocomplete="off"
+                        class="join-input"
+                        id="discordUsername"
+                        maxlength="120"
+                        name="discordUsername"
+                        placeholder="npr. piratec ali @piratec"
+                        spellcheck="false"
+                        type="text"
+                      />
+                      <p class="join-help">
+                        Če želiš aktivno sodelovati, vpis ni obvezen; aktivni člani
+                        v Discord skupini pridobijo dostop do več kanalov.
+                      </p>
+                      <p class="join-field-error" data-error-for="discordUsername"></p>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="join-form-section" aria-labelledby="join-consent-title">
+                  <div class="join-section-header">
+                    <p class="join-section-kicker">4</p>
+                    <div>
+                      <h3 class="join-section-title" id="join-consent-title">
+                        Izjave
+                      </h3>
+                      <p class="join-section-copy">
+                        Pred oddajo moramo potrditi še zakonske in statutarne izjave.
+                      </p>
+                    </div>
+                  </div>
+
+                  <fieldset class="join-fieldset" data-field-wrapper="consentDataProcessing">
+                    <legend class="join-label bottom-spacing">
+                      Soglasje za obdelavo osebnih podatkov *
+                    </legend>
+                    <label class="join-choice join-choice-checkbox">
+                      <input
+                        name="consentDataProcessing"
+                        required
+                        type="checkbox"
+                        value="true"
+                      />
+                      <span class="join-choice-stack">
+                        <span class="join-choice-title">
+                          Soglašam z obdelavo osebnih podatkov za namene vodenja
+                          registra članstva v skladu z GDPR / ZVOP-2.
+                        </span>
+                        <span class="join-choice-copy">
+                          Mladi Pirati bodo moje osebne podatke zbirali, obdelovali
+                          in hranili izključno za namene vodenja registra članstva
+                          ter pošiljanja obvestil o aktivnostih organizacije, v
+                          skladu z GDPR in ZVOP-2.
+                        </span>
+                      </span>
+                    </label>
+                    <p class="join-field-error" data-error-for="consentDataProcessing"></p>
+                  </fieldset>
+
+                  <fieldset class="join-fieldset" data-field-wrapper="acceptStatuteAndProgram">
+                    <legend class="join-label bottom-spacing">
+                      Potrditev statuta in programa *
+                    </legend>
+                    <label class="join-choice join-choice-checkbox">
+                      <input
+                        name="acceptStatuteAndProgram"
+                        required
+                        type="checkbox"
+                        value="true"
+                      />
+                      <span class="join-choice-stack">
+                        <span class="join-choice-title">
+                          Potrjujem, da sprejemam statut in program Mladih Piratov
+                          ter Piratske stranke.
+                        </span>
+                        <span class="join-choice-copy">
+                          Sem državljan/-ka Republike Slovenije, vstopam v Mlade
+                          Pirate in sprejemam njihov <a href={STATUTE_URL}>statut</a>{" "}
+                          ter <a href={PROGRAM_URL}>program</a>. S soglasjem
+                          izjavljam, da so vsi posredovani podatki resnični.
+                        </span>
+                      </span>
+                    </label>
+                    <p class="join-field-error" data-error-for="acceptStatuteAndProgram"></p>
+                  </fieldset>
+                </section>
+
+                <div class="join-submit-row">
+                  <button class="join-submit-button" type="submit">
+                    Oddaj prijavnico
+                  </button>
+                  <p class="join-meta-note">
+                    Po oddaji te vabimo tudi v našo{" "}
+                    <a href={DISCORD_URL} rel="noreferrer" target="_blank">
+                      Discord skupino
+                    </a>.
+                  </p>
+                </div>
+
+                <p class="join-status" id="join-form-status"></p>
+              </form>
+            </section>
+
+            <JoinSuccessPanel hidden id="join-success-panel" />
+          </div>
+        )
+      }
+    </section>
+  </main>
+
+  <script>
+    import { initJoinForm } from "../scripts/join/join-form";
+
+    initJoinForm();
+  </script>
+</BaseLayout>

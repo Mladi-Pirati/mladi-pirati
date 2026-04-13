@@ -1,7 +1,8 @@
 /// <reference types="astro/client" />
 
 interface ImportMetaEnv {
-  readonly PUBLIC_SIGNUP_ENDPOINT?: string;
+  readonly APPLICATIONS_RECEIVER_MEMBERSHIP_ENDPOINT?: string;
+  readonly APPLICATIONS_RECEIVER_SHARED_SECRET?: string;
 }
 
 interface ImportMeta {

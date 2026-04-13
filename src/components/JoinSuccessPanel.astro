@@ -1,0 +1,36 @@
+---
+import { DISCORD_URL, JOIN_FORM_SUCCESS_COPY } from "../internal/join-form";
+
+interface Props {
+  hidden?: boolean;
+  id?: string;
+}
+
+const { hidden = false, id } = Astro.props;
+---
+
+<section
+  class="join-panel join-success-panel"
+  id={id}
+  hidden={hidden ? true : undefined}
+  tabindex="-1"
+  aria-live="polite"
+>
+  <p class="join-kicker">Prijava oddana</p>
+  <h2 class="join-success-title">Hvala za prijavo!</h2>
+
+  {
+    JOIN_FORM_SUCCESS_COPY.map((paragraph) => (
+      <p class="join-page-copy">{paragraph}</p>
+    ))
+  }
+
+  <div class="join-success-actions">
+    <a class="join-primary-link" href={DISCORD_URL} rel="noreferrer" target="_blank">
+      Discord skupina
+    </a>
+    <a class="join-secondary-link" href="/">
+      Nazaj na prvo stran
+    </a>
+  </div>
+</section>

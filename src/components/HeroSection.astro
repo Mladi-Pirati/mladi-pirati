@@ -1,6 +1,6 @@
 ---
 import { heroContent } from "../config/site";
-import SignupForm from "./SignupForm.astro";
+import HeroJoinCard from "./HeroJoinCard.astro";
 import SiteNav from "./SiteNav.astro";
 ---
 
@@ -11,7 +11,7 @@ import SiteNav from "./SiteNav.astro";
     <p class="hero-quote-text">
       {heroContent.summary}<span id="hero-quote-loop"></span>
     </p>
-    <SignupForm />
+    <HeroJoinCard />
     <p class="hero-quote-cta">{heroContent.cta}</p>
   </div>
   <SiteNav />

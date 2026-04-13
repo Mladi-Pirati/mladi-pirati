@@ -52,6 +52,20 @@ export const heroContent = {
   cta: "Podmladek Piratske stranke Slovenije",
 } as const;
 
+export const heroJoinCardContent = {
+  eyebrow: "Pristopnica",
+  title: "Prodruži se!",
+  description:
+    "Prijavnica zbere vse podatke in izjave, ki jih potrebujemo za obravnavo članstva.",
+  bullets: [
+    // "izpolniš jo v nekaj minutah",
+    // "vključuje vse podatke iz uradne pristopnice",
+    // "oddana je neposredno v sistem za obravnavo prijav",
+  ],
+  buttonLabel: "Odpri pristopnico",
+  note: "Članstvo je odprto za osebe med 15. in 32. letom starosti.",
+} as const;
+
 export const aboutContent = {
   title: "O nas",
   subtitle:

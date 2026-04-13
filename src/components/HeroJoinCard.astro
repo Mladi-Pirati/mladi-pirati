@@ -1,0 +1,24 @@
+---
+import { heroJoinCardContent } from "../config/site";
+import { JOIN_FORM_PATH } from "../internal/join-form";
+---
+
+<aside class="hero-join-card" aria-label="Pristopnica za članstvo">
+  <p class="hero-join-eyebrow">{heroJoinCardContent.eyebrow}</p>
+  <h2 class="hero-join-title">{heroJoinCardContent.title}</h2>
+  <p class="hero-join-description">{heroJoinCardContent.description}</p>
+
+  <ul class="hero-join-list">
+    {
+      heroJoinCardContent.bullets.map((item) => (
+        <li>{item}</li>
+      ))
+    }
+  </ul>
+
+  <a class="hero-join-button" href={JOIN_FORM_PATH}>
+    {heroJoinCardContent.buttonLabel}
+  </a>
+
+  <p class="hero-join-note">{heroJoinCardContent.note}</p>
+</aside>

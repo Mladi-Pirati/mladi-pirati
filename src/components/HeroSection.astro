@@ -11,6 +11,18 @@ import SiteNav from "./SiteNav.astro";
     <p class="hero-quote-text">
       {heroContent.summary}<span id="hero-quote-loop"></span>
     </p>
+    <div class="hero-art" aria-hidden="true">
+      <picture>
+        <img
+          class="hero-art-image"
+          src="/pirato-san.png"
+          alt=""
+          width="1200"
+          height="1410"
+          decoding="async"
+        />
+      </picture>
+    </div>
     <HeroJoinCard />
     <p class="hero-quote-cta">{heroContent.cta}</p>
   </div>

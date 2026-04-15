@@ -76,7 +76,7 @@ export const heroJoinCardContent = {
 export const aboutContent = {
   title: "O nas",
   subtitle:
-    "Gradimo prostor za mlade, ki hocejo politiko odprto ljudem, ne zaprto za vrati.",
+    "Gradimo prostor za mlade, ki hočejo politiko odprto ljudem, ne zaprto za vrati.",
   paragraphs: [
     "Mladi Pirati smo glas generacije, ki ji je počasi dovolj. Dovolj najemnin, ki požrejo pol življenja. Dovolj praznih obljub, ki se ponavljajo iz volitev v volitve. Dovolj prihodnosti, o kateri odločajo ljudje, ki je sploh ne bodo živeli.",
     "Ne želimo več stati ob strani in gledati, kako se o naših življenjih odloča brez nas. Gre se za stvari, ki se zadevajo našega vsakdana. Stanovanja, ki si ga ne moreš privoščiti; izobraževanje, ki te pripravlja na negotovost; službe brez varnosti; svet na spletu, kjer tvoje pravice niso samoumevne; in tempo življenja, ki ti počasi razjeda glavo.",

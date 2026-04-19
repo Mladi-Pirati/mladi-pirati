@@ -4,6 +4,8 @@ interface QuotePhrase {
 }
 
 const SCRAMBLE_CHARS = ".:=-~+*/%#@|\\<>[]{}";
+const ACCENT_CLASS = "text-accent";
+const CURSOR_MARKUP = '<span class="blink-cursor ml-1.5 text-accent">&gt;</span>';
 const PHRASES: QuotePhrase[] = [
   { text: "nimate svojega stanovanja.", accent: null },
   { text: "ste naveličani korupcije.", accent: null },
@@ -30,7 +32,7 @@ export function initQuoteLoop(): void {
     }
 
     element.innerHTML =
-      accentify(last.text, last.accent) + '<span class="blink-cursor">&gt;</span>';
+      accentify(last.text, last.accent) + CURSOR_MARKUP;
     return;
   }
 
@@ -51,7 +53,7 @@ export function initQuoteLoop(): void {
       }
     }
 
-    element.innerHTML = element.innerHTML + '<span class="blink-cursor">&gt;</span>';
+    element.innerHTML = element.innerHTML + CURSOR_MARKUP;
   };
 
   sleep(600).then(run);
@@ -75,7 +77,7 @@ function accentify(text: string, accentWord: string | null): string {
 
   return (
     text.slice(0, index) +
-    '<span class="accent">' +
+    `<span class="${ACCENT_CLASS}">` +
     accentWord +
     "</span>" +
     text.slice(index + accentWord.length)

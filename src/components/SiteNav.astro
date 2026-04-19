@@ -2,10 +2,19 @@
 import { navigationItems, siteMetadata } from "../config/site";
 ---
 
-<nav class="site-nav" id="site-nav" aria-label="Glavna navigacija">
-  <div class="nav-inner">
-    <a href="/" class="nav-brand">
+<nav
+  aria-label="Glavna navigacija"
+  class="absolute right-0 bottom-0 left-0 z-[100] flex h-(--nav-height) items-center border-t border-b-2 border-border-strong bg-canvas data-[fixed=true]:fixed data-[fixed=true]:top-0 data-[fixed=true]:bottom-auto"
+  data-fixed="false"
+  id="site-nav"
+>
+  <div class="relative mx-auto flex w-full max-w-(--wide-width) items-center px-(--page-gutter)">
+    <a
+      class="mr-10 flex shrink-0 items-center gap-3 text-text no-underline"
+      href="/"
+    >
       <img
+        class="h-9 w-9 object-contain"
         src="/logos/Pirati_MladiPirati_Logo_3.png"
         alt={siteMetadata.shortName}
         width="36"
@@ -13,11 +22,21 @@ import { navigationItems, siteMetadata } from "../config/site";
       />
     </a>
 
-    <ul class="nav-menu" id="nav-menu">
+    <ul
+      class="m-0 list-none items-center gap-7 p-0 max-sm:hidden max-sm:data-[open=true]:absolute max-sm:data-[open=true]:inset-x-0 max-sm:data-[open=true]:top-(--nav-height) max-sm:data-[open=true]:flex max-sm:data-[open=true]:flex-col max-sm:data-[open=true]:items-start max-sm:data-[open=true]:gap-4 max-sm:data-[open=true]:border-b-[3px] max-sm:data-[open=true]:border-border-strong max-sm:data-[open=true]:bg-panel max-sm:data-[open=true]:p-6 sm:flex"
+      data-open="false"
+      id="nav-menu"
+    >
       {
         navigationItems.map((item) => (
           <li>
-            <a href={item.href} class:list={{ "nav-highlight": item.highlighted }}>
+            <a
+              class:list={[
+                "text-sm font-medium uppercase tracking-[1px] text-white/70 transition-colors hover:text-accent",
+                item.highlighted && "text-accent hover:text-accent-strong",
+              ]}
+              href={item.href}
+            >
               {item.label}
             </a>
           </li>
@@ -26,12 +45,12 @@ import { navigationItems, siteMetadata } from "../config/site";
     </ul>
 
     <button
-      class="scroll-down-arrow"
+      class="absolute right-(--page-gutter) bg-transparent p-1 leading-none text-accent transition-colors hover:text-accent-strong max-sm:hidden"
       id="scroll-arrow"
       type="button"
       aria-label="Pomakni se navzdol"
     >
-      <span class="arrow-pair" aria-hidden="true">
+      <span class="flex flex-col gap-0.75" aria-hidden="true">
         <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor">
           <rect x="0" y="0" width="2" height="2"></rect>
           <rect x="12" y="0" width="2" height="2"></rect>
@@ -54,7 +73,7 @@ import { navigationItems, siteMetadata } from "../config/site";
     </button>
 
     <button
-      class="nav-toggle"
+      class="ml-auto hidden cursor-pointer bg-transparent p-0 text-2xl text-text max-sm:block sm:hidden"
       id="nav-toggle"
       type="button"
       aria-label="Odpri meni"

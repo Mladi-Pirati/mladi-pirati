@@ -18,7 +18,7 @@ export function initSiteNav(): void {
 
   const observer = new IntersectionObserver(
     ([entry]) => {
-      nav.classList.toggle("is-fixed", !(entry?.isIntersecting ?? true));
+      nav.dataset.fixed = !(entry?.isIntersecting ?? true) ? "true" : "false";
     },
     { threshold: 0, rootMargin: `-${NAV_HEIGHT}px 0px 0px 0px` },
   );
@@ -33,7 +33,7 @@ export function initSiteNav(): void {
 
   if (toggle instanceof HTMLButtonElement) {
     const setExpanded = (expanded: boolean): void => {
-      menu.classList.toggle("is-open", expanded);
+      menu.dataset.open = expanded ? "true" : "false";
       toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
     };
 

@@ -3,22 +3,37 @@ import { heroJoinCardContent } from "../config/site";
 import { JOIN_FORM_PATH } from "../internal/join-form";
 ---
 
-<aside class="hero-join-card" aria-label="Pristopnica za članstvo">
-  <p class="hero-join-eyebrow">{heroJoinCardContent.eyebrow}</p>
-  <h2 class="hero-join-title">{heroJoinCardContent.title}</h2>
-  <p class="hero-join-description">{heroJoinCardContent.description}</p>
+<aside
+  aria-label="Pristopnica za članstvo"
+  class="grid gap-4.5 self-start border border-border-strong bg-[linear-gradient(180deg,rgba(240,160,0,0.08),rgba(240,160,0,0)),rgba(8,8,8,0.94)] p-6 shadow-panel max-[900px]:p-[22px]"
+>
+  <p class="m-0 font-mono text-xs uppercase tracking-[2px] text-accent">
+    {heroJoinCardContent.eyebrow}
+  </p>
+  <h2 class="m-0 text-balance font-mono text-[28px] font-normal leading-[1.2] text-text">
+    {heroJoinCardContent.title}
+  </h2>
+  <p class="m-0 text-sm leading-[1.6] text-text-soft">{heroJoinCardContent.description}</p>
 
-  <ul class="hero-join-list">
+  <ul class="m-0 grid list-none gap-3 p-0">
     {
       heroJoinCardContent.bullets.map((item) => (
-        <li>{item}</li>
+        <li class="flex gap-3 text-sm leading-[1.5] text-white/[0.78]">
+          <span aria-hidden="true" class="font-mono text-accent">
+            +
+          </span>
+          <span>{item}</span>
+        </li>
       ))
     }
   </ul>
 
-  <a class="hero-join-button" href={JOIN_FORM_PATH}>
+  <a
+    class="inline-flex min-h-[50px] items-center justify-center border border-accent bg-accent px-4.5 py-3 font-mono text-[13px] font-bold uppercase tracking-[1.2px] text-black transition-colors hover:border-accent-strong hover:bg-accent-strong hover:text-black"
+    href={JOIN_FORM_PATH}
+  >
     {heroJoinCardContent.buttonLabel}
   </a>
 
-  <p class="hero-join-note">{heroJoinCardContent.note}</p>
+  <p class="m-0 text-sm leading-[1.6] text-white/[0.52]">{heroJoinCardContent.note}</p>
 </aside>

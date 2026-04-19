@@ -3,40 +3,52 @@ import { Icon } from "astro-icon/components";
 import { footerLinks, siteMetadata, socialLinks } from "../config/site";
 ---
 
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-text-row">
-        <span class="footer-brand-text">{siteMetadata.footerText}</span>
+<footer class="bg-white/[0.03]">
+  <div class="mx-auto w-full max-w-(--container-width) px-(--page-gutter) py-10">
+    <div class="mb-6">
+      <div class="flex flex-wrap items-baseline justify-between gap-6">
+        <span class="text-[0.8125rem] text-white/50">{siteMetadata.footerText}</span>
 
         {
           footerLinks.length > 0 && (
-            <ul class="footer-links">
-              {footerLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+            <ul class="m-0 flex list-none flex-wrap gap-4.5 p-0">
+              {footerLinks.map((link) => (
+                <li>
+                  <a
+                    class="text-[0.8125rem] text-white/[0.55] transition-colors hover:text-accent"
+                    href={link.href}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           )
         }
       </div>
     </div>
 
-    <hr class="footer-divider" />
+    <hr class="mb-5 border-0 border-t border-border" />
 
-    <div class="footer-bottom">
-      <p>&copy; 2018-2026 {siteMetadata.shortName}. Vse pravice pridrzane.</p>
+    <div class="flex items-center justify-between gap-3 max-[900px]:flex-col max-[900px]:items-start max-[640px]:items-stretch">
+      <p class="m-0 text-[0.8125rem] text-white/[0.34]">
+        &copy; 2018-2026 {siteMetadata.shortName}. Vse pravice pridrzane.
+      </p>
 
       {
         socialLinks.length > 0 && (
-          <ul aria-label="Družbena omrežja" class="footer-socials">
+          <ul aria-label="Družbena omrežja" class="m-0 flex list-none gap-3 p-0">
             {socialLinks.map((link) => (
               <li>
                 <a
                   aria-label={link.label}
+                  class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.14] bg-white/[0.03] text-white/[0.72] transition-[background,border-color,color,transform] duration-150 ease-in hover:-translate-y-px hover:border-white/[0.32] hover:bg-white/[0.08] hover:text-white focus-visible:border-white/[0.32] focus-visible:bg-white/[0.08] focus-visible:text-white"
                   href={link.href}
                   rel="noreferrer"
                   target="_blank"
                   title={link.label}
                 >
-                  <Icon aria-hidden="true" class="footer-social-icon" name={link.icon} />
+                  <Icon aria-hidden="true" class="h-4.5 w-4.5" name={link.icon} />
                 </a>
               </li>
             ))}

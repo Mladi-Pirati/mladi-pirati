@@ -9,40 +9,51 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="Kratka politika zasebnosti za spletno stran Mladih Piratov in pristopni obrazec."
   canonicalPath="/politika-zasebnosti"
 >
-  <main class="join-page legal-page" id="main-content">
-    <header class="join-topbar">
-      <a class="join-brand" href="/">
+  <main
+    class="min-h-screen px-(--page-gutter) pt-8 pb-18 max-[720px]:pt-5 max-[720px]:pb-14"
+    id="main-content"
+  >
+    <header class="mx-auto mb-12 flex w-full max-w-(--wide-width) flex-wrap items-center justify-between gap-4.5 max-[720px]:mb-7">
+      <a class="inline-flex items-center gap-3.5 text-text hover:text-text max-[720px]:w-full" href="/">
         <img
+          class="h-11 w-11 object-contain"
           src="/logos/Pirati_MladiPirati_Logo_3.png"
           alt={siteMetadata.shortName}
           width="44"
           height="44"
         />
-        <span class="join-brand-copy">
-          <span class="join-brand-name">{siteMetadata.shortName}</span>
-          <span class="join-brand-tagline">Podmladek Piratske stranke Slovenije</span>
+        <span class="grid gap-0.5">
+          <span class="font-mono text-xs uppercase tracking-[2px] text-accent">
+            {siteMetadata.shortName}
+          </span>
+          <span class="text-sm text-text-soft">Podmladek Piratske stranke Slovenije</span>
         </span>
       </a>
 
-      <a class="join-secondary-link" href="/">
+      <a
+        class="inline-flex min-h-[50px] items-center justify-center border border-border-strong bg-transparent px-4.5 py-3 font-mono text-[13px] uppercase tracking-[1.2px] text-text transition-colors hover:border-accent hover:text-text max-[720px]:w-full"
+        href="/"
+      >
         ← Nazaj na prvo stran
       </a>
     </header>
 
-    <section class="legal-page-shell">
-      <article class="legal-panel">
-        <p class="join-kicker">Pravno</p>
-        <h1 class="join-page-title">Politika zasebnosti</h1>
-        <p class="legal-lead">
+    <section class="mx-auto w-full max-w-(--wide-width)">
+      <article class="mx-auto w-full max-w-[52rem] border border-border bg-[rgba(8,8,8,0.3)] p-8 shadow-elevated max-[900px]:p-7 max-[640px]:p-[22px]">
+        <p class="mb-3.5 font-mono text-xs uppercase tracking-[2px] text-accent">Pravno</p>
+        <h1 class="m-0 text-balance font-mono text-[clamp(2rem,4vw,3.4rem)] leading-[1.15]">
+          Politika zasebnosti
+        </h1>
+        <p class="mt-4.5 text-[1.0625rem] text-text-soft max-[640px]:text-base">
           Ta stran je namenjena osnovni predstavitvi Mladih Piratov in oddaji
           pristopnega obrazca. Zasebnost obiskovalk in obiskovalcev jemljemo
           resno, zato tukaj na kratko pojasnjujemo, katere podatke lahko
           obdelujemo in zakaj.
         </p>
 
-        <section class="legal-section" aria-labelledby="kaj-zbiramo">
-          <h2 id="kaj-zbiramo">Kaj ta stran zbira</h2>
-          <p>
+        <section class="mt-7 border-t border-border pt-6" aria-labelledby="kaj-zbiramo">
+          <h2 class="mb-2.5 text-[1.2rem] leading-[1.2]" id="kaj-zbiramo">Kaj ta stran zbira</h2>
+          <p class="m-0 text-text-soft">
             Ob navadnem obisku strani praviloma ne zbiramo osebnih podatkov, s
             katerimi bi te lahko neposredno identificirali. Osebne podatke
             prejmemo predvsem takrat, ko jih prostovoljno vneseš in oddaš prek
@@ -50,23 +61,27 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </p>
         </section>
 
-        <section class="legal-section" aria-labelledby="pristopni-obrazec">
-          <h2 id="pristopni-obrazec">Pristopni obrazec</h2>
-          <p>
+        <section class="mt-7 border-t border-border pt-6" aria-labelledby="pristopni-obrazec">
+          <h2 class="mb-2.5 text-[1.2rem] leading-[1.2]" id="pristopni-obrazec">
+            Pristopni obrazec
+          </h2>
+          <p class="m-0 text-text-soft">
             Podatke, ki jih vneseš v pristopni obrazec, uporabljamo za pregled
             in obravnavo prošnje za članstvo, preverjanje pogojev za članstvo ter
             komunikacijo, ki je neposredno povezana s tem postopkom.
           </p>
-          <p>
+          <p class="mt-3.5 text-text-soft">
             Ti podatki niso namenjeni splošnemu trženju, temveč izključno
             postopku obravnave članstva in osnovnemu vodenju komunikacije glede
             prijave.
           </p>
         </section>
 
-        <section class="legal-section" aria-labelledby="osnovna-analitika">
-          <h2 id="osnovna-analitika">Osnovna analitika</h2>
-          <p>
+        <section class="mt-7 border-t border-border pt-6" aria-labelledby="osnovna-analitika">
+          <h2 class="mb-2.5 text-[1.2rem] leading-[1.2]" id="osnovna-analitika">
+            Osnovna analitika
+          </h2>
+          <p class="m-0 text-text-soft">
             Za razumevanje osnovnega obiska strani lahko uporabljamo lastno instanco Matomo - preprosto,
             samogostovano analitiko, gostovano v EU. Namen analitike je omejen na osnovno
             agregatno statistiko, kot so število obiskov, najbolj obiskane
@@ -74,9 +89,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </p>
         </section>
 
-        <section class="legal-section" aria-labelledby="brez-profiliranja">
-          <h2 id="brez-profiliranja">Brez oglaševalskega profiliranja</h2>
-          <p>
+        <section class="mt-7 border-t border-border pt-6" aria-labelledby="brez-profiliranja">
+          <h2 class="mb-2.5 text-[1.2rem] leading-[1.2]" id="brez-profiliranja">
+            Brez oglaševalskega profiliranja
+          </h2>
+          <p class="m-0 text-text-soft">
             Morebitna osnovna analitika ni namenjena oglaševalskemu profiliranju,
             prodaji podatkov ali sledenju za potrebe ciljanja oglasov. Zanima
             nas predvsem, ali stran deluje, katere vsebine ljudi najbolj
@@ -84,14 +101,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </p>
         </section>
 
-        <section class="legal-section" aria-labelledby="posredovanje-podatkov">
-          <h2 id="posredovanje-podatkov">Posredovanje podatkov</h2>
-          <p>
+        <section class="mt-7 border-t border-border pt-6" aria-labelledby="posredovanje-podatkov">
+          <h2 class="mb-2.5 text-[1.2rem] leading-[1.2]" id="posredovanje-podatkov">
+            Posredovanje podatkov
+          </h2>
+          <p class="m-0 text-text-soft">
             Osebnih podatkov ne posredujemo tretjim osebam za nobene namene.
           </p>
         </section>
 
-        <p class="legal-meta">
+        <p class="mt-8 text-[0.95rem] text-text-soft">
           Če bomo to politiko bistveno posodobili, bo nova različica objavljena
           na tej strani. Za uradne informacije se lahko vedno obrneš na
           komunikacijske kanale Mladih Piratov.

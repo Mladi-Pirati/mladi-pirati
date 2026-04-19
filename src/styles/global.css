@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Monda", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --color-canvas: #000000;
+  --color-panel: #111111;
+  --color-text: #ffffff;
+  --color-text-soft: rgba(255, 255, 255, 0.72);
+  --color-text-muted: rgba(255, 255, 255, 0.48);
+  --color-border: #222222;
+  --color-border-strong: #333333;
+  --color-accent: #f0a000;
+  --color-accent-strong: #ffb833;
+  --color-danger: #ff6961;
+  --shadow-panel: 0 24px 60px rgba(0, 0, 0, 0.32);
+  --shadow-elevated: 0 28px 80px rgba(0, 0, 0, 0.2);
+}
+
+:root {
+  --container-width: 1100px;
+  --wide-width: 1200px;
+  --nav-height: 70px;
+  --page-gutter: 45px;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top, rgba(240, 160, 0, 0.12), transparent 35%),
+    linear-gradient(180deg, #050505 0%, #000000 100%);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: rgba(240, 160, 0, 0.28);
+  color: var(--color-text);
+}
+
+.skip-link {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 200;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--color-accent);
+  background: var(--color-panel);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  transform: translateY(-180%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.blink-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --page-gutter: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .blink-cursor {
+    animation: none;
+  }
+}

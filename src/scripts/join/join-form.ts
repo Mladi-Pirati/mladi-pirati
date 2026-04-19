@@ -52,7 +52,7 @@ export function initJoinForm(): void {
     const requestBody = serializeForm(form);
 
     isSubmitting = true;
-    form.classList.add("is-submitting");
+    form.dataset.submitting = "true";
     setSubmittingState(form, true);
 
     try {
@@ -98,7 +98,7 @@ export function initJoinForm(): void {
       );
     } finally {
       isSubmitting = false;
-      form.classList.remove("is-submitting");
+      delete form.dataset.submitting;
       setSubmittingState(form, false);
     }
   });
@@ -177,7 +177,7 @@ function applyFieldErrors(
     >(`[name="${fieldName}"]`);
 
     if (wrapper) {
-      wrapper.classList.add("is-invalid");
+      wrapper.dataset.invalid = "true";
     }
 
     if (error) {
@@ -209,7 +209,9 @@ function clearFieldError(form: HTMLFormElement, fieldName: JoinFieldName): void 
     HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
   >(`[name="${fieldName}"]`);
 
-  wrapper?.classList.remove("is-invalid");
+  if (wrapper) {
+    delete wrapper.dataset.invalid;
+  }
 
   if (error) {
     error.textContent = "";
@@ -251,11 +253,10 @@ function setStatus(
   tone: "error" | "muted",
 ): void {
   status.textContent = message;
-  status.classList.remove("is-error", "is-muted");
-  status.classList.add(`is-${tone}`);
+  status.dataset.tone = tone;
 }
 
 function clearStatus(status: HTMLElement): void {
   status.textContent = "";
-  status.classList.remove("is-error", "is-muted");
+  delete status.dataset.tone;
 }

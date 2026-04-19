@@ -2,15 +2,18 @@
 import { aboutContent } from "../config/site";
 ---
 
-<section class="section" id="o-nas" aria-labelledby="o-nas-title">
-  <div class="container">
-    <div class="content-block">
-      <h2 class="section-title" id="o-nas-title">
-        O <span class="accent">nas</span>
+<section class="scroll-mt-[calc(var(--nav-height)+20px)] py-20" id="o-nas" aria-labelledby="o-nas-title">
+  <div class="mx-auto w-full max-w-(--container-width) px-(--page-gutter)">
+    <div class="max-w-[820px]">
+      <h2
+        class="mb-3 text-[28px] font-bold uppercase tracking-[2px] text-balance"
+        id="o-nas-title"
+      >
+        O <span class="text-accent">nas</span>
       </h2>
-      <p class="section-subtitle">{aboutContent.subtitle}</p>
+      <p class="mb-12 max-w-[640px] text-text-muted">{aboutContent.subtitle}</p>
 
-      <div class="about-text">
+      <div class="grid gap-5 [&>p]:m-0 [&>p]:text-text-soft">
         {aboutContent.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
       </div>
     </div>

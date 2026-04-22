@@ -46,7 +46,7 @@ export const siteMetadata = {
   description:
     "Mladi Pirati smo podmladek Piratske stranke Slovenije. Zavzemamo se za digitalne pravice, transparentnost, svobodo in prihodnost mladih.",
   themeColor: "#000000",
-  ogImage: "/logos/Pirati_MladiPirati_Logo_3.png",
+  ogImage: "/logos/mladi-pirati-logo.png",
   footerText: "Podmladek Piratske stranke Slovenije.",
 } as const;
 
@@ -64,7 +64,7 @@ export const heroContent = {
     { text: "ste naveličani korupcije.", accent: null },
     { text: "hočete, da se to spremeni", accent: "spremeni" },
   ],
-  cta: "Podmladek Piratske stranke Slovenije",
+  cta: ["Pomdladek", "Piratske stranke Slovenije"],
 } as const;
 
 export const heroJoinCardContent = {
@@ -78,7 +78,7 @@ export const heroJoinCardContent = {
     // "oddana je neposredno v sistem za obravnavo prijav",
   ],
   buttonLabel: "Odpri pristopnico",
-  note: "Članstvo je odprto za osebe med 15. in 32. letom starosti.",
+  note: "Če si mlajši/-a od 18 let, ti bomo poslali obrazec s soglasjem staršev.",
 } as const;
 
 export const aboutContent = {
@@ -87,7 +87,7 @@ export const aboutContent = {
     "Gradimo prostor za mlade, ki hočejo politiko odprto ljudem, ne zaprto za vrati.",
   paragraphs: [
     "Mladi Pirati smo glas generacije, ki ji je počasi dovolj. Dovolj najemnin, ki požrejo pol življenja. Dovolj praznih obljub, ki se ponavljajo iz volitev v volitve. Dovolj prihodnosti, o kateri odločajo ljudje, ki je sploh ne bodo živeli.",
-    "Ne želimo več stati ob strani in gledati, kako se o naših življenjih odloča brez nas. Gre se za stvari, ki se zadevajo našega vsakdana. Stanovanja, ki si ga ne moreš privoščiti; izobraževanje, ki te pripravlja na negotovost; službe brez varnosti; svet na spletu, kjer tvoje pravice niso samoumevne; in tempo življenja, ki ti počasi razjeda glavo.",
+    "Ne želimo več stati ob strani in gledati, kako se o naših življenjih odloča brez nas. Gre se za stvari, ki se zadevajo našega vsakdana. Stanovanja, ki si ga ne moreš privoščiti, izobraževanje, ki te pripravlja na negotovost, službe brez varnosti, svet na spletu, kjer tvoje pravice niso samoumevne, in tempo življenja, ki ti počasi razjeda glavo.",
     "Hočemo svoboden internet, ki ostaja pristen in ga ne preplavlja generična AI vsebina, ter pravico do zasebnosti. Hočemo znanje, ki ni zaklenjeno za dragimi naročninami. Hočemo stanovanja, ki niso luksuz. Hočemo javne storitve, ki dejansko delujejo. In hočemo družbo, kjer si lahko mlad človek brez strahu ustvari življenje.",
     "In ne, na to prihodnost ne bomo čakali. Vzeli jo bomo nazaj in začeli graditi sami."
   ],
@@ -99,6 +99,18 @@ export const programContent = {
     "Teme, ki jih odpiramo, so praktične: od zasebnosti in znanja do dostojnega življenja mladih.",
   items: [
     {
+      title: "Stanovanja",
+      description: "Dostopno stanovanje ni privilegij, ampak pogoj za samostojno življenje, varnost in prihodnost mladih."
+    },
+    {
+      title: "Zdravstvo",
+      description: "Javno zdravstvo mora biti dostopno, učinkovito in zanesljivo, ne pa sistem, v katerem predolgo čakaš ali ostaneš brez obravnave."
+    },
+    {
+      title: "Plače",
+      description: "Delo mora omogočati dostojno življenje. Zavzemamo se za višje neto plače, manj obremenitve dela in bolj varen položaj zaposlenih."
+    },
+    {
       title: "Digitalne pravice",
       description:
         "Branimo zasebnost, svoboden internet in tehnologijo, ki ljudi opolnomoči namesto nadzira.",
@@ -107,16 +119,6 @@ export const programContent = {
       title: "Transparentna država",
       description:
         "Želimo odločanje, ki je preverljivo, razumljivo in odprto za javnost, ne samo za insajderje.",
-    },
-    {
-      title: "Dostopno znanje",
-      description:
-        "Podpiramo odprto znanje, kakovostno javno izobraževanje in pogoje, v katerih se lahko mladi razvijajo.",
-    },
-    {
-      title: "Prihodnost mladih",
-      description:
-        "Stanovanja, delo, mobilnost in kakovostno življenje niso luksuz, ampak osnova za samostojno prihodnost.",
     },
   ] satisfies ProgramItem[],
 } as const;

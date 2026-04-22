@@ -10,12 +10,11 @@ import {
   PROGRAM_URL,
   REGIONS,
   STATUTE_URL,
-  getJoinDateBounds,
 } from "../internal/join-form";
 
 const submitted = Astro.url.searchParams.get("submitted") === "1";
 const submissionError = Astro.url.searchParams.get("error") === "1";
-const { min, max } = getJoinDateBounds(new Date());
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
 const bodyCopyClass = "m-0 text-text-soft";
 const surfaceClass = "border border-border bg-[rgba(8,8,8,0.3)]";
 const introClass = `${surfaceClass} p-8 max-[960px]:p-6`;
@@ -48,13 +47,13 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
       <a class="inline-flex items-center gap-3.5 text-text hover:text-text max-[720px]:w-full" href="/">
         <img
           class="h-11 w-11 object-contain"
-          src="/logos/Pirati_MladiPirati_Logo_3.png"
+          src="/logos/mladi-pirati-logo.png"
           alt={siteMetadata.shortName}
           width="44"
           height="44"
         />
         <span class="grid gap-0.5">
-          <span class="font-mono text-xs uppercase tracking-[2px] text-accent">
+          <span class="font-mono text-xs tracking-[2px] text-accent uppercase">
             {siteMetadata.shortName}
           </span>
           <span class="text-sm text-text-soft">Podmladek Piratske stranke Slovenije</span>
@@ -73,10 +72,10 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
         ) : (
           <div class="grid w-full max-w-4xl gap-8">
             <div class={introClass}>
-              <p class="mb-3.5 font-mono text-xs uppercase tracking-[2px] text-accent">
+              <p class="mb-3.5 font-mono text-xs tracking-[2px] text-accent uppercase">
                 Pristopnica
               </p>
-              <h1 class="m-0 text-balance font-mono text-[clamp(2rem,4vw,3.4rem)] leading-[1.15]">
+              <h1 class="m-0 font-mono text-[clamp(2rem,4vw,3.4rem)] leading-[1.15] text-balance">
                 Prijava za članstvo v Mladih Piratih
               </h1>
 
@@ -90,7 +89,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
             </div>
             <section class:list={[panelClass, "grid gap-7"]} id="join-form-shell">
               <div class="grid gap-2.5">
-                <h2 class="m-0 text-balance font-mono text-[1.75rem] leading-[1.15]">
+                <h2 class="m-0 font-mono text-[1.75rem] leading-[1.15] text-balance">
                   Izpolni pristopnico
                 </h2>
                 <p class={bodyCopyClass}>
@@ -101,7 +100,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
 
               {submissionError && (
                 <p
-                  class="m-0 text-[0.85rem] leading-[1.5] text-text-muted empty:hidden data-[tone=error]:text-danger data-[tone=muted]:text-text-muted"
+                  class="m-0 text-[0.85rem] leading-normal text-text-muted empty:hidden data-[tone=error]:text-danger data-[tone=muted]:text-text-muted"
                   data-tone="error"
                 >
                   Oddaja trenutno ni uspela. Preveri podatke in poskusi znova.
@@ -111,12 +110,13 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
               <form
                 action={JOIN_REQUEST_API_PATH}
                 class="grid gap-7 data-[submitting=true]:opacity-[0.88]"
+                data-turnstile-site-key={turnstileSiteKey}
                 id="join-request-form"
                 method="post"
               >
                 <section class="grid gap-5 border-t border-border pt-6 first:border-t-0 first:pt-0" aria-labelledby="join-personal-title">
                   <div class="grid grid-cols-[auto_1fr] items-start gap-4">
-                    <p class="m-0 text-lg text-white/[0.24]">1</p>
+                    <p class="m-0 text-lg text-white/24">1</p>
                     <div>
                       <h3 class="mb-1.5 text-[1.2rem]" id="join-personal-title">
                         Osebni podatki
@@ -144,7 +144,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         required
                         type="text"
                       />
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="fullName"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="fullName"></p>
                     </div>
 
                     <div class={fieldClass} data-field-wrapper="dateOfBirth">
@@ -155,13 +155,11 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         autocomplete="bday"
                         class={controlClass}
                         id="dateOfBirth"
-                        max={max}
-                        min={min}
                         name="dateOfBirth"
                         required
                         type="date"
                       />
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="dateOfBirth"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="dateOfBirth"></p>
                     </div>
 
                     <div class={fieldClass} data-field-wrapper="placeOfBirth">
@@ -178,14 +176,14 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         required
                         type="text"
                       />
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="placeOfBirth"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="placeOfBirth"></p>
                     </div>
                   </div>
                 </section>
 
                 <section class="grid gap-5 border-t border-border pt-6 first:border-t-0 first:pt-0" aria-labelledby="join-contact-title">
                   <div class="grid grid-cols-[auto_1fr] items-start gap-4">
-                    <p class="m-0 text-lg text-white/[0.24]">2</p>
+                    <p class="m-0 text-lg text-white/24">2</p>
                     <div>
                       <h3 class="mb-1.5 text-[1.2rem]" id="join-contact-title">
                         Kontakt in prebivališče
@@ -213,7 +211,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         required
                         type="text"
                       />
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="streetAddress"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="streetAddress"></p>
                     </div>
 
                     <div class={fieldClass} data-field-wrapper="cityAndPostalCode">
@@ -231,7 +229,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         required
                         type="text"
                       />
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="cityAndPostalCode"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="cityAndPostalCode"></p>
                     </div>
 
                     <div class={fieldClass} data-field-wrapper="residenceRegion">
@@ -259,7 +257,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                           <span class="h-2 w-2 rotate-45 border-r-2 border-b-2 border-current"></span>
                         </span>
                       </div>
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="residenceRegion"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="residenceRegion"></p>
                     </div>
 
                     <div class={fieldClass} data-field-wrapper="email">
@@ -276,7 +274,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         required
                         type="email"
                       />
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="email"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="email"></p>
                     </div>
 
                     <div class={fieldClass} data-field-wrapper="phone">
@@ -292,14 +290,14 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         placeholder="npr. 031 123 456"
                         type="tel"
                       />
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="phone"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="phone"></p>
                     </div>
                   </div>
                 </section>
 
                 <section class="grid gap-5 border-t border-border pt-6 first:border-t-0 first:pt-0" aria-labelledby="join-participation-title">
                   <div class="grid grid-cols-[auto_1fr] items-start gap-4">
-                    <p class="m-0 text-lg text-white/[0.24]">3</p>
+                    <p class="m-0 text-lg text-white/24">3</p>
                     <div>
                       <h3 class="mb-1.5 text-[1.2rem]" id="join-participation-title">
                         Sodelovanje
@@ -329,7 +327,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         ))
                       }
                     </div>
-                    <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="participationMode"></p>
+                    <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="participationMode"></p>
                   </fieldset>
 
                   <div class="grid grid-cols-2 gap-4 max-[720px]:grid-cols-1">
@@ -352,7 +350,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         Če želiš aktivno sodelovati, vpis ni obvezen; aktivni člani
                         v Discord skupini pridobijo dostop do več kanalov.
                       </p>
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="discordUsername"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="discordUsername"></p>
                     </div>
 
                     <div class={fieldWideClass} data-field-wrapper="motivation">
@@ -367,14 +365,14 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         placeholder="Napiši nam nekaj besed o sebi in zakaj te zanima članstvo..."
                         rows="4"
                       ></textarea>
-                      <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="motivation"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="motivation"></p>
                     </div>
                   </div>
                 </section>
 
                 <section class="grid gap-5 border-t border-border pt-6 first:border-t-0 first:pt-0" aria-labelledby="join-consent-title">
                   <div class="grid grid-cols-[auto_1fr] items-start gap-4">
-                    <p class="m-0 text-lg text-white/[0.24]">4</p>
+                    <p class="m-0 text-lg text-white/24">4</p>
                     <div>
                       <h3 class="mb-1.5 text-[1.2rem]" id="join-consent-title">
                         Izjave
@@ -410,7 +408,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         </span>
                       </span>
                     </label>
-                    <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="consentsToDataProcessing"></p>
+                    <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="consentsToDataProcessing"></p>
                   </fieldset>
 
                   <fieldset class="group flex flex-col gap-2" data-field-wrapper="acceptsStatuteAndProgram">
@@ -454,9 +452,31 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         </span>
                       </span>
                     </label>
-                    <p class="m-0 text-[0.85rem] leading-[1.5] text-danger empty:hidden" data-error-for="acceptsStatuteAndProgram"></p>
+                    <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="acceptsStatuteAndProgram"></p>
                   </fieldset>
                 </section>
+
+                <div
+                  aria-describedby="join-turnstile-status"
+                  aria-labelledby="join-turnstile-title"
+                  aria-live="polite"
+                  class="grid gap-3 border border-border bg-white/[0.02] p-4 text-text-soft"
+                  hidden
+                  id="join-turnstile-region"
+                  tabindex="-1"
+                >
+                  <p
+                    class="m-0 font-mono text-xs uppercase tracking-[1.2px] text-accent"
+                    id="join-turnstile-title"
+                  >
+                    Varnostno preverjanje
+                  </p>
+                  <p
+                    class="m-0 text-[0.92rem] leading-[1.6] text-text-soft empty:hidden data-[tone=error]:text-danger data-[tone=muted]:text-text-soft"
+                    id="join-turnstile-status"
+                  ></p>
+                  <div class="min-h-[65px]" id="join-turnstile-widget"></div>
+                </div>
 
                 <div class="flex flex-wrap items-center gap-4 max-[720px]:items-stretch">
                   <button class={primaryActionClass} type="submit">
@@ -471,8 +491,9 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                 </div>
 
                 <p
-                  class="m-0 text-[0.85rem] leading-[1.5] text-text-muted empty:hidden data-[tone=error]:text-danger data-[tone=muted]:text-text-muted"
+                  class="m-0 text-[0.85rem] leading-normal text-text-muted empty:hidden data-[tone=error]:text-danger data-[tone=muted]:text-text-muted"
                   id="join-form-status"
+                  aria-live="polite"
                 ></p>
               </form>
             </section>

@@ -4,9 +4,6 @@ export const JOIN_REQUEST_API_PATH = "/api/join-request";
 export const STATUTE_URL = "https://next.piratskastranka.si/s/bcpkRR2PrjcYpDs";
 export const PROGRAM_URL = "https://wiki.piratskastranka.si/wiki/Glavna_stran";
 
-export const MIN_JOIN_AGE = 15;
-export const MAX_JOIN_AGE = 32;
-
 export const REGIONS = [
   "Pomurska",
   "Podravska",
@@ -29,7 +26,7 @@ export const PARTICIPATION_MODES = [
 
 export const JOIN_FORM_INTRO = [
   "S to prijavnico se včlaniš v Mlade Pirate, mladinsko organizacijo Piratske stranke Slovenije.",
-  "Članstvo je odprto za osebe med 15. in 32. letom starosti. Če si mlajši/-a od 18 let, ti bomo poslali obrazec s soglasjem staršev.",
+  "Če si mlajši/-a od 18 let, ti bomo poslali obrazec s soglasjem staršev.",
 ] as const;
 
 export const JOIN_FORM_SUCCESS_COPY = [
@@ -78,23 +75,6 @@ export type JoinRequestFieldErrors = Partial<
   Record<JoinRequestFieldName, string>
 >;
 
-export function getJoinDateBounds(referenceDate = new Date()): {
-  min: string;
-  max: string;
-} {
-  const today = startOfDay(referenceDate);
-  const latestAllowedBirthDate = addYears(today, -MIN_JOIN_AGE);
-  const earliestAllowedBirthDate = addDays(
-    addYears(today, -(MAX_JOIN_AGE + 1)),
-    1,
-  );
-
-  return {
-    min: formatDateInput(earliestAllowedBirthDate),
-    max: formatDateInput(latestAllowedBirthDate),
-  };
-}
-
 export function normalizeJoinRequestInput(
   source: Record<string, unknown>,
 ): JoinRequestPayload {
@@ -131,9 +111,6 @@ export function validateJoinRequestInput(
 
   if (!birthDate) {
     fieldErrors.dateOfBirth = "Vnesi veljaven datum rojstva.";
-  } else if (!isEligibleJoinAge(birthDate)) {
-    fieldErrors.dateOfBirth =
-      "Članstvo je odprto za osebe med 15. in 32. letom starosti.";
   }
 
   if (data.placeOfBirth.length < 2) {
@@ -250,14 +227,6 @@ function getBoolean(value: unknown): boolean {
   return ["1", "true", "yes", "on"].includes(value.trim().toLowerCase());
 }
 
-function formatDateInput(value: Date): string {
-  const year = value.getFullYear();
-  const month = `${value.getMonth() + 1}`.padStart(2, "0");
-  const day = `${value.getDate()}`.padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
-
 function parseIsoDate(value: string): Date | null {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return null;
@@ -279,37 +248,4 @@ function parseIsoDate(value: string): Date | null {
   }
 
   return parsed;
-}
-
-function addYears(value: Date, years: number): Date {
-  const next = new Date(value);
-  next.setFullYear(next.getFullYear() + years);
-  return next;
-}
-
-function addDays(value: Date, days: number): Date {
-  const next = new Date(value);
-  next.setDate(next.getDate() + days);
-  return next;
-}
-
-function isEligibleJoinAge(dateOfBirth: Date, today = new Date()): boolean {
-  const referenceDate = startOfDay(today);
-  const normalizedBirthDate = startOfDay(dateOfBirth);
-  const minimumAgeDate = addYears(referenceDate, -MIN_JOIN_AGE);
-  const maximumAgeDate = addDays(
-    addYears(referenceDate, -(MAX_JOIN_AGE + 1)),
-    1,
-  );
-
-  return (
-    normalizedBirthDate >= maximumAgeDate &&
-    normalizedBirthDate <= minimumAgeDate
-  );
-}
-
-function startOfDay(value: Date): Date {
-  const next = new Date(value);
-  next.setHours(0, 0, 0, 0);
-  return next;
 }

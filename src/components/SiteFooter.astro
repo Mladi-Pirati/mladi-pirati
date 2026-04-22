@@ -3,7 +3,7 @@ import { Icon } from "astro-icon/components";
 import { footerLinks, siteMetadata, socialLinks } from "../config/site";
 ---
 
-<footer class="bg-white/[0.03]">
+<footer class="bg-white/3">
   <div class="mx-auto w-full max-w-(--container-width) px-(--page-gutter) py-10">
     <div class="mb-6">
       <div class="flex flex-wrap items-baseline justify-between gap-6">
@@ -31,7 +31,7 @@ import { footerLinks, siteMetadata, socialLinks } from "../config/site";
     <hr class="mb-5 border-0 border-t border-border" />
 
     <div class="flex items-center justify-between gap-3 max-[900px]:flex-col max-[900px]:items-start max-[640px]:items-stretch">
-      <p class="m-0 text-[0.8125rem] text-white/[0.34]">
+      <p class="m-0 text-[0.8125rem] text-white/34">
         &copy; 2018-2026 {siteMetadata.shortName}. Vse pravice pridrzane.
       </p>
 
@@ -42,7 +42,7 @@ import { footerLinks, siteMetadata, socialLinks } from "../config/site";
               <li>
                 <a
                   aria-label={link.label}
-                  class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.14] bg-white/[0.03] text-white/[0.72] transition-[background,border-color,color,transform] duration-150 ease-in hover:-translate-y-px hover:border-white/[0.32] hover:bg-white/[0.08] hover:text-white focus-visible:border-white/[0.32] focus-visible:bg-white/[0.08] focus-visible:text-white"
+                  class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.14] bg-white/3 text-white/72 transition-[background,border-color,color,transform] duration-150 ease-in hover:-translate-y-px hover:border-white/32 hover:bg-white/8 hover:text-white focus-visible:border-white/32 focus-visible:bg-white/8 focus-visible:text-white"
                   href={link.href}
                   rel="noreferrer"
                   target="_blank"

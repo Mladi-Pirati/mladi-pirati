@@ -3,19 +3,19 @@ import { programContent } from "../config/site";
 ---
 
 <section
-  class="scroll-mt-[calc(var(--nav-height)+20px)] bg-white/[0.03] py-20"
+  class="scroll-mt-[calc(var(--nav-height)+20px)] bg-white/3 py-20"
   id="program"
   aria-labelledby="program-title"
 >
   <div class="mx-auto w-full max-w-(--container-width) px-(--page-gutter)">
-    <div class="max-w-[820px]">
+    <div class="max-w-205">
       <h2
-        class="mb-3 text-[28px] font-bold uppercase tracking-[2px] text-balance"
+        class="mb-3 text-[28px] font-bold tracking-[2px] text-balance uppercase"
         id="program-title"
       >
         Naš <span class="text-accent">program</span>
       </h2>
-      <p class="mb-12 max-w-[640px] text-text-muted">{programContent.subtitle}</p>
+      <p class="mb-12 max-w-160 text-text-muted">{programContent.subtitle}</p>
 
       <div class="grid">
         {

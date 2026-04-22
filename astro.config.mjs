@@ -26,5 +26,8 @@ export default defineConfig({
   integrations,
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      allowedHosts: ["e3aa4a24d80a.ngrok.app"]
+    }
   },
 });

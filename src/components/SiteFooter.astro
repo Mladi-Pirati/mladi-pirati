@@ -17,6 +17,7 @@ import { footerLinks, siteMetadata, socialLinks } from "../config/site";
                   <a
                     class="text-[0.8125rem] text-white/[0.55] transition-colors hover:text-accent"
                     href={link.href}
+                    {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
                   >
                     {link.label}
                   </a>

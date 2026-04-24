@@ -17,6 +17,7 @@ import { footerLinks, siteMetadata, socialLinks } from "../config/site";
                   <a
                     class="text-[0.8125rem] text-white/[0.55] transition-colors hover:text-accent"
                     href={link.href}
+                    {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}
                   >
                     {link.label}
                   </a>
@@ -32,7 +33,7 @@ import { footerLinks, siteMetadata, socialLinks } from "../config/site";
 
     <div class="flex items-center justify-between gap-3 max-[900px]:flex-col max-[900px]:items-start max-[640px]:items-stretch">
       <p class="m-0 text-[0.8125rem] text-white/34">
-        &copy; 2018-2026 {siteMetadata.shortName}. Vse pravice pridrzane.
+        &copy; 2018-{new Date().getFullYear()} {siteMetadata.shortName}. Vse pravice pridrzane.
       </p>
 
       {

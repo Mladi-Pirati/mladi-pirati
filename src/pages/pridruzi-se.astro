@@ -129,22 +129,40 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                   </div>
 
                   <div class="grid grid-cols-2 gap-4 max-[720px]:grid-cols-1">
-                    <div class={fieldWideClass} data-field-wrapper="fullName">
-                      <label class={labelClass} for="fullName">
-                        Ime in priimek *
+                    <div class={fieldClass} data-field-wrapper="firstName">
+                      <label class={labelClass} for="firstName">
+                        Ime *
                       </label>
                       <input
-                        autocomplete="name"
+                        autocomplete="given-name"
                         class={controlClass}
-                        id="fullName"
-                        maxlength="160"
+                        id="firstName"
+                        maxlength="80"
                         minlength="2"
-                        name="fullName"
-                        placeholder="npr. Ana Novak"
+                        name="firstName"
+                        placeholder="npr. Ana"
                         required
                         type="text"
                       />
-                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="fullName"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="firstName"></p>
+                    </div>
+
+                    <div class={fieldClass} data-field-wrapper="lastName">
+                      <label class={labelClass} for="lastName">
+                        Priimek *
+                      </label>
+                      <input
+                        autocomplete="family-name"
+                        class={controlClass}
+                        id="lastName"
+                        maxlength="80"
+                        minlength="2"
+                        name="lastName"
+                        placeholder="npr. Novak"
+                        required
+                        type="text"
+                      />
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="lastName"></p>
                     </div>
 
                     <div class={fieldClass} data-field-wrapper="dateOfBirth">

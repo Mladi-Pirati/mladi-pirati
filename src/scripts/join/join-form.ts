@@ -5,7 +5,8 @@ import {
 } from "../shared/turnstile";
 
 const FIELD_NAMES = [
-  "fullName",
+  "firstName",
+  "lastName",
   "dateOfBirth",
   "placeOfBirth",
   "streetAddress",
@@ -316,7 +317,8 @@ function serializeForm(form: HTMLFormElement) {
   const formData = new FormData(form);
 
   return {
-    fullName: getString(formData, "fullName"),
+    firstName: getString(formData, "firstName"),
+    lastName: getString(formData, "lastName"),
     dateOfBirth: getString(formData, "dateOfBirth"),
     placeOfBirth: getString(formData, "placeOfBirth"),
     streetAddress: getString(formData, "streetAddress"),

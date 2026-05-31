@@ -36,7 +36,8 @@ export const JOIN_FORM_SUCCESS_COPY = [
 ] as const;
 
 export const JOIN_FIELD_NAMES = [
-  "fullName",
+  "firstName",
+  "lastName",
   "dateOfBirth",
   "placeOfBirth",
   "streetAddress",
@@ -56,7 +57,8 @@ export type RegionOption = (typeof REGIONS)[number];
 export type ParticipationModeOption = (typeof PARTICIPATION_MODES)[number];
 
 export interface JoinRequestPayload {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   dateOfBirth: string;
   placeOfBirth: string;
   streetAddress: string;
@@ -79,7 +81,8 @@ export function normalizeJoinRequestInput(
   source: Record<string, unknown>,
 ): JoinRequestPayload {
   return {
-    fullName: getString(source.fullName),
+    firstName: getString(source.firstName),
+    lastName: getString(source.lastName),
     dateOfBirth: getString(source.dateOfBirth),
     placeOfBirth: getString(source.placeOfBirth),
     streetAddress: getString(source.streetAddress),
@@ -103,10 +106,16 @@ export function validateJoinRequestInput(
   const birthDate = parseIsoDate(data.dateOfBirth);
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (data.fullName.length < 2) {
-    fieldErrors.fullName = "Vnesi ime in priimek.";
-  } else if (data.fullName.length > 160) {
-    fieldErrors.fullName = "Ime in priimek naj bo krajše od 160 znakov.";
+  if (data.firstName.length < 2) {
+    fieldErrors.firstName = "Vnesi ime.";
+  } else if (data.firstName.length > 80) {
+    fieldErrors.firstName = "Ime naj bo krajše od 80 znakov.";
+  }
+
+  if (data.lastName.length < 2) {
+    fieldErrors.lastName = "Vnesi priimek.";
+  } else if (data.lastName.length > 80) {
+    fieldErrors.lastName = "Priimek naj bo krajši od 80 znakov.";
   }
 
   if (!birthDate) {

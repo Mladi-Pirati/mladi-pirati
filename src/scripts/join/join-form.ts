@@ -7,6 +7,7 @@ import {
 const FIELD_NAMES = [
   "firstName",
   "lastName",
+  "fullLegalName",
   "dateOfBirth",
   "placeOfBirth",
   "streetAddress",
@@ -80,6 +81,7 @@ export function initJoinForm(): void {
 
   const turnstileSiteKey = form.dataset.turnstileSiteKey?.trim() ?? "";
   let isSubmitting = false;
+  let fullLegalNameEdited = false;
   let captchaVisible = !captchaRegion.hidden;
   let captchaToken = "";
   let widgetId: TurnstileWidgetId | null = null;
@@ -243,6 +245,7 @@ export function initJoinForm(): void {
       }
 
       form.reset();
+      fullLegalNameEdited = false;
       clearAllErrors(form);
       clearStatus(status);
       clearStatus(captchaStatus);
@@ -295,6 +298,20 @@ export function initJoinForm(): void {
     ) {
       clearFieldError(form, target.name as JoinFieldName);
       clearStatus(status);
+
+      if (target.name === "fullLegalName") {
+        fullLegalNameEdited = true;
+      } else if (
+        (target.name === "firstName" || target.name === "lastName") &&
+        !fullLegalNameEdited
+      ) {
+        const first = form.querySelector<HTMLInputElement>('[name="firstName"]');
+        const last = form.querySelector<HTMLInputElement>('[name="lastName"]');
+        const full = form.querySelector<HTMLInputElement>('[name="fullLegalName"]');
+        if (first && last && full) {
+          full.value = [first.value.trim(), last.value.trim()].filter(Boolean).join(" ");
+        }
+      }
     }
   });
 
@@ -318,6 +335,7 @@ function serializeForm(form: HTMLFormElement) {
   return {
     firstName: getString(formData, "firstName"),
     lastName: getString(formData, "lastName"),
+    fullLegalName: getString(formData, "fullLegalName"),
     dateOfBirth: getString(formData, "dateOfBirth"),
     placeOfBirth: getString(formData, "placeOfBirth"),
     streetAddress: getString(formData, "streetAddress"),

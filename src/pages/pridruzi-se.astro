@@ -130,7 +130,7 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                   <div class="grid grid-cols-2 gap-4 max-[720px]:grid-cols-1">
                     <div class={fieldClass} data-field-wrapper="firstName">
                       <label class={labelClass} for="firstName">
-                        Ime *
+                        Želeno Ime *
                       </label>
                       <input
                         autocomplete="given-name"
@@ -162,6 +162,23 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         type="text"
                       />
                       <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="lastName"></p>
+                    </div>
+
+                    <div class={fieldWideClass} data-field-wrapper="fullLegalName">
+                      <label class={labelClass} for="fullLegalName">
+                        Polno pravno ime *
+                      </label>
+                      <input
+                        autocomplete="name"
+                        class={controlClass}
+                        id="fullLegalName"
+                        maxlength="200"
+                        name="fullLegalName"
+                        placeholder="npr. Ana Novak"
+                        required
+                        type="text"
+                      />
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="fullLegalName"></p>
                     </div>
 
                     <div class={fieldClass} data-field-wrapper="dateOfBirth">

@@ -33,6 +33,7 @@ export const JOIN_FORM_SUCCESS_COPY = [
 export const JOIN_FIELD_NAMES = [
   "firstName",
   "lastName",
+  "fullLegalName",
   "dateOfBirth",
   "placeOfBirth",
   "streetAddress",
@@ -52,6 +53,7 @@ export type RegionOption = (typeof REGIONS)[number];
 export interface JoinRequestPayload {
   firstName: string;
   lastName: string;
+  fullLegalName: string;
   dateOfBirth: string;
   placeOfBirth: string;
   streetAddress: string;
@@ -75,6 +77,7 @@ export function normalizeJoinRequestInput(
   return {
     firstName: getString(source.firstName),
     lastName: getString(source.lastName),
+    fullLegalName: getString(source.fullLegalName),
     dateOfBirth: getString(source.dateOfBirth),
     placeOfBirth: getString(source.placeOfBirth),
     streetAddress: getString(source.streetAddress),
@@ -107,6 +110,12 @@ export function validateJoinRequestInput(
     fieldErrors.lastName = "Vnesi priimek.";
   } else if (data.lastName.length > 80) {
     fieldErrors.lastName = "Priimek naj bo krajši od 80 znakov.";
+  }
+
+  if (data.fullLegalName.length < 1) {
+    fieldErrors.fullLegalName = "Vnesi polno pravno ime.";
+  } else if (data.fullLegalName.length > 200) {
+    fieldErrors.fullLegalName = "Polno pravno ime naj bo krajše od 200 znakov.";
   }
 
   if (!birthDate) {

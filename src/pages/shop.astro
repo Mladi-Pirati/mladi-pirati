@@ -1,0 +1,48 @@
+---
+import ShopItemCard from "../components/ShopItemCard.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteNav from "../components/SiteNav.astro";
+import { shopContent } from "../config/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Shop"
+  description={shopContent.description}
+  canonicalPath="/shop"
+>
+  <SiteNav />
+
+  <main id="main-content" class="pt-(--nav-height)">
+    <section
+      class="mx-auto w-full max-w-(--container-width) px-(--page-gutter) py-20"
+      aria-labelledby="shop-title"
+    >
+      <h1
+        class="mb-10 font-mono text-3xl font-bold text-text"
+        id="shop-title"
+      >
+        <span class="text-accent">Shop</span>
+      </h1>
+
+      <ul
+        class="m-0 list-none p-0 grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-6"
+      >
+        {
+          shopContent.items.map((item) => (
+            <li>
+              <ShopItemCard name={item.name} price={item.price} />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <SiteFooter />
+
+  <script>
+    import { initSiteNav } from "../scripts/home/site-nav";
+    initSiteNav();
+  </script>
+</BaseLayout>

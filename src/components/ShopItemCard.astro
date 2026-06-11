@@ -1,0 +1,31 @@
+---
+export interface Props {
+  name: string;
+  price: string;
+}
+
+const { name, price } = Astro.props;
+---
+
+<div class="flex flex-col gap-4 rounded border border-border bg-panel">
+  <div
+    class="flex h-64 w-full items-center justify-center rounded-t bg-border font-mono text-sm text-text-muted"
+    aria-label={`Slika: ${name}`}
+    role="img"
+  >
+    [ slika ]
+  </div>
+  <div class="flex flex-col gap-4 p-5 pt-0">
+    <div class="flex items-baseline justify-between gap-4">
+      <span class="font-mono text-lg font-bold text-text">{name}</span>
+      <span class="font-mono text-lg text-accent">{price}</span>
+    </div>
+    <button
+      type="button"
+      disabled
+      class="w-full cursor-not-allowed rounded border border-accent py-2.5 font-mono text-sm font-bold uppercase tracking-widest text-accent opacity-40"
+    >
+      Kupi
+    </button>
+  </div>
+</div>

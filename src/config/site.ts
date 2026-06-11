@@ -1,5 +1,5 @@
 export interface NavItem {
-  href: `#${string}`;
+  href: string;
   label: string;
   highlighted?: boolean;
 }
@@ -53,6 +53,7 @@ export const siteMetadata = {
 export const navigationItems: NavItem[] = [
   { href: "#o-nas", label: "O nas" },
   { href: "#program", label: "Program" },
+  { href: "/shop", label: "Shop" },
   { href: "#hero", label: "Pridruži se", highlighted: true },
 ];
 
@@ -121,6 +122,14 @@ export const programContent = {
         "Želimo odločanje, ki je preverljivo, razumljivo in odprto za javnost, ne samo za insajderje.",
     },
   ] satisfies ProgramItem[],
+} as const;
+
+export const shopContent = {
+  title: "Shop",
+  description: "Nakupuj uradne Mladi Pirati izdelke.",
+  items: [
+    { name: "T-shirt", price: "25 €" },
+  ],
 } as const;
 
 export const footerLinks: FooterLink[] = [

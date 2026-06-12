@@ -1,0 +1,434 @@
+---
+import { siteMetadata } from "../config/site";
+import { ORDER_API_PATH, ORDER_FORM_PATH } from "../internal/order-form";
+import type { PickupLocation, ShippingOption } from "../internal/shop";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const turnstileSiteKey =
+  import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
+const quartermasterApi = import.meta.env.QUARTERMASTER_API?.trim() ?? "";
+
+let shippingOptions: ShippingOption[] = [];
+let pickupLocations: PickupLocation[] = [];
+
+if (quartermasterApi) {
+  const [shippingResult, pickupResult] = await Promise.allSettled([
+    fetch(`${quartermasterApi}/api/shipping-options`).then((r) =>
+      r.ok ? (r.json() as Promise<ShippingOption[]>) : Promise.reject(r.status),
+    ),
+    fetch(`${quartermasterApi}/api/pickup-locations`).then((r) =>
+      r.ok ? (r.json() as Promise<PickupLocation[]>) : Promise.reject(r.status),
+    ),
+  ]);
+  if (shippingResult.status === "fulfilled")
+    shippingOptions = shippingResult.value;
+  if (pickupResult.status === "fulfilled") pickupLocations = pickupResult.value;
+}
+
+const surfaceClass = "border border-border bg-[rgba(8,8,8,0.3)]";
+const panelClass = `${surfaceClass} p-7 shadow-elevated max-[720px]:p-5`;
+const fieldClass = "group flex flex-col gap-2";
+const labelClass =
+  "font-mono text-xs uppercase tracking-[1.2px] text-accent group-data-[invalid=true]:text-danger";
+const controlClass =
+  "w-full min-h-[52px] rounded-none border border-border bg-white/[0.02] px-3.5 py-[13px] text-text outline-none transition-colors placeholder:text-white/[0.32] focus-visible:border-accent disabled:cursor-not-allowed disabled:opacity-70 group-data-[invalid=true]:border-danger";
+const choiceClass =
+  "grid cursor-pointer grid-cols-[auto_1fr] items-center gap-3 border border-border bg-white/[0.02] p-3.5 transition-colors hover:border-accent group-data-[invalid=true]:border-danger has-[:checked]:border-accent has-[:checked]:bg-accent/[0.06]";
+const errorClass = "m-0 text-[0.85rem] leading-normal text-danger empty:hidden";
+const sectionClass =
+  "grid gap-5 border-t border-border pt-6 first:border-t-0 first:pt-0";
+const primaryActionClass =
+  "inline-flex min-h-[50px] items-center justify-center border border-accent bg-accent px-4.5 py-3 font-mono text-[13px] uppercase tracking-[1.2px] text-black transition-colors hover:border-accent-strong hover:bg-accent-strong hover:text-black max-[720px]:w-full";
+const secondaryActionClass =
+  "inline-flex min-h-[50px] items-center justify-center border border-border-strong bg-transparent px-4.5 py-3 font-mono text-[13px] uppercase tracking-[1.2px] text-text transition-colors hover:border-accent hover:text-text max-[720px]:w-full";
+---
+
+<BaseLayout
+  title="Naroči"
+  description="Naroči izdelke Mladih Piratov."
+  canonicalPath={ORDER_FORM_PATH}>
+  <main
+    class="min-h-screen px-(--page-gutter) pt-8 pb-18 max-[720px]:pt-5 max-[720px]:pb-14"
+    id="main-content">
+    <header
+      class="mx-auto mb-12 flex w-full max-w-(--wide-width) flex-wrap items-center justify-between gap-4.5 max-[720px]:mb-7">
+      <a
+        class="inline-flex items-center gap-3.5 text-text hover:text-text max-[720px]:w-full"
+        href="/">
+        <img
+          class="h-11 w-11 object-contain"
+          src="/logos/mladi-pirati-logo.png"
+          alt={siteMetadata.shortName}
+          width="44"
+          height="44"
+        />
+        <span class="grid gap-0.5">
+          <span class="font-mono text-xs tracking-[2px] text-accent uppercase">
+            {siteMetadata.shortName}
+          </span>
+          <span class="text-sm text-text-soft"
+            >Podmladek Piratske stranke Slovenije</span
+          >
+        </span>
+      </a>
+
+      <a class={secondaryActionClass} href="/shop"> ← Nazaj v trgovino </a>
+    </header>
+
+    <section class="mx-auto w-full max-w-2xl">
+      <!-- form shell -->
+      <div id="checkout-form-shell" class="grid gap-8">
+        <div>
+          <p
+            class="mb-2 font-mono text-xs tracking-[2px] text-accent uppercase">
+            Naročilo
+          </p>
+          <h1
+            class="m-0 font-mono text-[clamp(1.8rem,4vw,2.6rem)] leading-[1.15]">
+            Zaključi nakup
+          </h1>
+        </div>
+
+        <!-- order summary (populated by JS) -->
+        <div class={panelClass}>
+          <p
+            class="mb-3 font-mono text-xs uppercase tracking-[1.2px] text-accent">
+            Povzetek naročila
+          </p>
+          <div id="checkout-summary"></div>
+        </div>
+
+        <!-- checkout form -->
+        <div class={panelClass}>
+          <form
+            id="checkout-form"
+            action={ORDER_API_PATH}
+            class="grid gap-7 data-[submitting=true]:opacity-[0.88]"
+            data-turnstile-site-key={turnstileSiteKey}>
+            <!-- 1. customer info -->
+            <section
+              class={sectionClass}
+              aria-labelledby="checkout-contact-title">
+              <h2
+                class="m-0 font-mono text-[1.1rem]"
+                id="checkout-contact-title">
+                Kontaktni podatki
+              </h2>
+
+              <div class="grid grid-cols-1 gap-4">
+                <div class={fieldClass} data-field-wrapper="fullName">
+                  <label class={labelClass} for="fullName">Polno ime *</label>
+                  <input
+                    id="fullName"
+                    name="fullName"
+                    type="text"
+                    autocomplete="name"
+                    required
+                    class={controlClass}
+                    placeholder="npr. Ana Novak"
+                  />
+                  <p class={errorClass} data-error-for="fullName"></p>
+                </div>
+
+                <div class={fieldClass} data-field-wrapper="email">
+                  <label class={labelClass} for="email">E-poštni naslov *</label
+                  >
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required
+                    class={controlClass}
+                    placeholder="npr. ana@example.com"
+                  />
+                  <p class={errorClass} data-error-for="email"></p>
+                </div>
+
+                <div class={fieldClass} data-field-wrapper="phone">
+                  <label class={labelClass} for="phone">Telefon</label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    class={controlClass}
+                    placeholder="npr. +386 40 123 456"
+                  />
+                  <p class={errorClass} data-error-for="phone"></p>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2. delivery -->
+            <section
+              class={sectionClass}
+              aria-labelledby="checkout-delivery-title">
+              <h2
+                class="m-0 font-mono text-[1.1rem]"
+                id="checkout-delivery-title">
+                Dostava
+              </h2>
+
+              <!-- delivery type toggle -->
+              <div>
+                <p class={`${labelClass} mb-2`}>Vrsta dostave *</p>
+                <div
+                  class="flex border border-border overflow-hidden"
+                  role="group"
+                  aria-label="Vrsta dostave">
+                  <button
+                    id="delivery-btn-shipping"
+                    type="button"
+                    class="flex-1 py-2.5 font-mono text-xs uppercase tracking-widest bg-accent text-black transition-colors">
+                    Dostava
+                  </button>
+                  <span class="w-px bg-border self-stretch" aria-hidden="true"
+                  ></span>
+                  <button
+                    id="delivery-btn-pickup"
+                    type="button"
+                    class="flex-1 py-2.5 font-mono text-xs uppercase tracking-widest text-text-muted transition-colors hover:text-text hover:bg-white/[0.05]">
+                    Prevzem
+                  </button>
+                </div>
+                <input
+                  type="hidden"
+                  id="delivery-type-input"
+                  name="deliveryType"
+                  value="shipping"
+                />
+              </div>
+
+              <!-- shipping fields -->
+              <div id="shipping-section" class="grid gap-4">
+                {
+                  shippingOptions.length > 0 ? (
+                    <fieldset
+                      class="group grid gap-2"
+                      data-field-wrapper="shippingOptionId">
+                      <legend class={`${labelClass} pb-1`}>
+                        Način dostave *
+                      </legend>
+                      {shippingOptions.map((opt) => (
+                        <label class={choiceClass}>
+                          <input
+                            type="radio"
+                            name="shippingOptionId"
+                            value={opt.id}
+                            class="accent-accent mt-0"
+                          />
+                          <span class="grid gap-0.5">
+                            <span class="font-mono text-sm text-text">
+                              {opt.name}
+                            </span>
+                            <span class="font-mono text-xs text-text-muted">
+                              {opt.estimatedDeliveryTime} ·{" "}
+                              <span class="text-accent">
+                                {opt.price.toFixed(2).replace(".", ",")} €
+                              </span>
+                            </span>
+                          </span>
+                        </label>
+                      ))}
+                      <p class={errorClass} data-error-for="shippingOptionId" />
+                    </fieldset>
+                  ) : (
+                    <p class="font-mono text-sm text-text-muted">
+                      Ni na voljo načinov dostave.
+                    </p>
+                  )
+                }
+
+                <div class="grid grid-cols-1 gap-4">
+                  <div class={fieldClass} data-field-wrapper="address">
+                    <label class={labelClass} for="address"
+                      >Ulica in hišna številka *</label
+                    >
+                    <input
+                      id="address"
+                      name="address"
+                      type="text"
+                      autocomplete="street-address"
+                      class={controlClass}
+                      placeholder="npr. Slovenska cesta 1"
+                    />
+                    <p class={errorClass} data-error-for="address"></p>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-4 max-[480px]:grid-cols-1">
+                    <div class={fieldClass} data-field-wrapper="city">
+                      <label class={labelClass} for="city">Mesto *</label>
+                      <input
+                        id="city"
+                        name="city"
+                        type="text"
+                        autocomplete="address-level2"
+                        class={controlClass}
+                        placeholder="npr. Ljubljana"
+                      />
+                      <p class={errorClass} data-error-for="city"></p>
+                    </div>
+
+                    <div class={fieldClass} data-field-wrapper="postalCode">
+                      <label class={labelClass} for="postalCode"
+                        >Poštna številka *</label
+                      >
+                      <input
+                        id="postalCode"
+                        name="postalCode"
+                        type="text"
+                        autocomplete="postal-code"
+                        class={controlClass}
+                        placeholder="npr. 1000"
+                      />
+                      <p class={errorClass} data-error-for="postalCode"></p>
+                    </div>
+                  </div>
+
+                  <div class={fieldClass} data-field-wrapper="country">
+                    <label class={labelClass} for="country">Država *</label>
+                    <input
+                      id="country"
+                      type="text"
+                      autocomplete="country"
+                      class={controlClass}
+                      value="Slovenija"
+                      disabled
+                    />
+                    <input type="hidden" name="country" value="Slovenija" />
+                    <p class={errorClass} data-error-for="country"></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- pickup fields -->
+              <div id="pickup-section" hidden>
+                {
+                  pickupLocations.length > 0 ? (
+                    <fieldset
+                      class="group grid gap-2"
+                      data-field-wrapper="pickupLocationId">
+                      <legend class={`${labelClass} pb-1`}>
+                        Lokacija prevzema *
+                      </legend>
+                      {pickupLocations.map((loc) => (
+                        <label class={choiceClass}>
+                          <input
+                            type="radio"
+                            name="pickupLocationId"
+                            value={loc.id}
+                            class="accent-accent mt-0"
+                          />
+                          <span class="grid gap-0.5">
+                            <span class="font-mono text-sm text-text">
+                              {loc.name}
+                            </span>
+                            <span class="font-mono text-xs text-text-muted">
+                              {loc.address}, {loc.city}
+                            </span>
+                          </span>
+                        </label>
+                      ))}
+                      <p class={errorClass} data-error-for="pickupLocationId" />
+                    </fieldset>
+                  ) : (
+                    <p class="font-mono text-sm text-text-muted">
+                      Ni na voljo lokacij za prevzem.
+                    </p>
+                  )
+                }
+              </div>
+            </section>
+
+            <!-- 3. notes -->
+            <section class={sectionClass}>
+              <div class={fieldClass} data-field-wrapper="notes">
+                <label class={labelClass} for="notes">Opomba</label>
+                <textarea
+                  id="notes"
+                  name="notes"
+                  rows="3"
+                  maxlength="500"
+                  class={`${controlClass} min-h-[unset] resize-y`}
+                  placeholder="Posebne zahteve ali napotki za pakiranje…"
+                ></textarea>
+                <p class={errorClass} data-error-for="notes"></p>
+              </div>
+            </section>
+
+            <!-- captcha -->
+            <div
+              id="checkout-captcha-region"
+              hidden
+              tabindex="-1"
+              aria-live="polite"
+              aria-labelledby="checkout-captcha-title"
+              aria-describedby="checkout-captcha-status"
+              class="grid gap-3 border border-border bg-white/[0.02] p-4 text-text-soft">
+              <p
+                class="m-0 font-mono text-xs uppercase tracking-[1.2px] text-accent"
+                id="checkout-captcha-title">
+                Varnostno preverjanje
+              </p>
+              <p
+                class="m-0 text-[0.92rem] leading-[1.6] text-text-soft empty:hidden data-[tone=error]:text-danger data-[tone=muted]:text-text-soft"
+                id="checkout-captcha-status">
+              </p>
+              <div class="min-h-[65px]" id="checkout-captcha-widget"></div>
+            </div>
+
+            <!-- submit -->
+            <div class="flex flex-col gap-3 border-t border-border pt-6">
+              <button class={primaryActionClass} type="submit">
+                Oddaj naročilo →
+              </button>
+              <p
+                class="m-0 text-[0.85rem] leading-normal text-text-muted empty:hidden data-[tone=error]:text-danger data-[tone=muted]:text-text-muted"
+                id="checkout-status"
+                aria-live="polite">
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- success panel -->
+      <div
+        id="checkout-success-panel"
+        hidden
+        tabindex="-1"
+        class={`${panelClass} grid gap-6`}>
+        <div>
+          <p
+            class="mb-2 font-mono text-xs tracking-[2px] text-accent uppercase">
+            Uspešno oddano
+          </p>
+          <h1
+            class="m-0 font-mono text-[clamp(1.8rem,4vw,2.6rem)] leading-[1.15]">
+            Hvala za naročilo!
+          </h1>
+        </div>
+        <p class="m-0 text-text-soft">
+          Tvoje naročilo je bilo uspešno oddano. Potrditveni e-mail boš
+          prejel/-a v kratkem.
+        </p>
+        <p
+          class="m-0 font-mono text-sm text-text-muted"
+          id="checkout-order-id-row"
+          hidden>
+          Številka naročila: <span id="checkout-order-id" class="text-accent"
+          ></span>
+        </p>
+        <a class={secondaryActionClass} href="/shop" style="width: fit-content">
+          ← Nazaj v trgovino
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    import { initCheckoutPage } from "../scripts/shop/checkout";
+    initCheckoutPage();
+  </script>
+</BaseLayout>

@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # font downloads
 Bitmap Font Pack*/
+
+.superpowers
+docs/superpowers

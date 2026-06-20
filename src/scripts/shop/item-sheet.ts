@@ -1,10 +1,12 @@
 import type { CartItem } from "../../internal/order-form";
-import type { ShopItem } from "../../internal/shop";
+import type { ShopItem, ShopItemImage } from "../../internal/shop";
 
 type QtyState = Record<string, number>;
 
 let currentItem: ShopItem | null = null;
 let qtyState: QtyState = {};
+let currentImages: ShopItemImage[] = [];
+let currentImageIndex = 0;
 
 export function initShopPage(): void {
   const itemsEl = document.getElementById("shop-items");
@@ -27,7 +29,22 @@ export function initShopPage(): void {
   document.getElementById("item-sheet-overlay")?.addEventListener("click", closeSheet);
 
   document.addEventListener("keydown", (e) => {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxOpen = lightbox && !lightbox.classList.contains("hidden");
+    if (lightboxOpen) {
+      if (e.key === "ArrowLeft") navigateLightbox(-1);
+      else if (e.key === "ArrowRight") navigateLightbox(1);
+      else if (e.key === "Escape") closeLightbox();
+      return;
+    }
     if (e.key === "Escape" && currentItem) closeSheet();
+  });
+
+  document.getElementById("lightbox-close")?.addEventListener("click", closeLightbox);
+  document.getElementById("lightbox-prev")?.addEventListener("click", () => navigateLightbox(-1));
+  document.getElementById("lightbox-next")?.addEventListener("click", () => navigateLightbox(1));
+  document.getElementById("lightbox")?.addEventListener("click", (e) => {
+    if (e.target === e.currentTarget) closeLightbox();
   });
 
   document.getElementById("sheet-order-btn")?.addEventListener("click", () => {
@@ -66,6 +83,7 @@ function openSheet(item: ShopItem): void {
 }
 
 function closeSheet(): void {
+  closeLightbox();
   currentItem = null;
   qtyState = {};
 
@@ -87,15 +105,23 @@ function populateImages(item: ShopItem): void {
   thumbsEl.innerHTML = "";
 
   const sorted = [...item.images].sort((a, b) => a.sortOrder - b.sortOrder);
+  currentImages = sorted;
+  currentImageIndex = 0;
 
   if (sorted.length === 0) {
     mainImg.style.display = "none";
+    mainImg.style.cursor = "";
+    mainImg.removeAttribute("aria-label");
+    mainImg.onclick = null;
     placeholder.style.display = "";
     return;
   }
 
   setMainImage(sorted[0].url, item.name);
   placeholder.style.display = "none";
+  mainImg.style.cursor = "pointer";
+  mainImg.setAttribute("aria-label", "Povečaj sliko");
+  mainImg.onclick = () => openLightbox(currentImageIndex);
 
   sorted.forEach((img, idx) => {
     const btn = document.createElement("button");
@@ -113,6 +139,7 @@ function populateImages(item: ShopItem): void {
     btn.appendChild(thumbImg);
 
     btn.addEventListener("click", () => {
+      currentImageIndex = idx;
       setMainImage(img.url, item.name);
       thumbsEl.querySelectorAll("button").forEach((b) =>
         b.classList.replace("border-accent", "border-border")
@@ -130,6 +157,59 @@ function setMainImage(url: string, alt: string): void {
   mainImg.src = url;
   mainImg.alt = alt;
   mainImg.style.display = "";
+}
+
+function openLightbox(index: number): void {
+  currentImageIndex = index;
+  const img = currentImages[index];
+  if (!img) return;
+
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement | null;
+  const counter = document.getElementById("lightbox-counter");
+  const prev = document.getElementById("lightbox-prev");
+  const next = document.getElementById("lightbox-next");
+  if (!lightbox || !lightboxImg) return;
+
+  lightboxImg.src = img.url;
+  lightboxImg.alt = currentItem?.name ?? "";
+
+  const multi = currentImages.length > 1;
+  if (prev) prev.classList.toggle("hidden", !multi);
+  if (next) next.classList.toggle("hidden", !multi);
+  if (counter) {
+    counter.textContent = multi ? `${index + 1} / ${currentImages.length}` : "";
+    counter.classList.toggle("hidden", !multi);
+  }
+
+  lightbox.classList.remove("hidden");
+  lightbox.classList.add("flex");
+  document.getElementById("lightbox-close")?.focus();
+}
+
+function closeLightbox(): void {
+  const lightbox = document.getElementById("lightbox");
+  if (!lightbox) return;
+  lightbox.classList.add("hidden");
+  lightbox.classList.remove("flex");
+}
+
+function navigateLightbox(delta: -1 | 1): void {
+  if (currentImages.length === 0) return;
+  const newIndex = (currentImageIndex + delta + currentImages.length) % currentImages.length;
+  openLightbox(newIndex);
+
+  // Sync thumbnail active border
+  const thumbsEl = document.getElementById("sheet-thumbnails");
+  if (thumbsEl) {
+    thumbsEl.querySelectorAll("button").forEach((b, i) => {
+      b.classList.toggle("border-accent", i === newIndex);
+      b.classList.toggle("border-border", i !== newIndex);
+    });
+    // Also update main image in sheet
+    const img = currentImages[newIndex];
+    if (img && currentItem) setMainImage(img.url, currentItem.name);
+  }
 }
 
 function populateInfo(item: ShopItem): void {

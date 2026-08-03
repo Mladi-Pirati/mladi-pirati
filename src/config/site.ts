@@ -34,6 +34,7 @@ export const DISCORD_URL = "https://discord.gg/jqS7QFpc2C";
 export const INSTAGRAM_URL = "https://www.instagram.com/mladipiratisi/";
 export const TIKTOK_URL = "https://www.tiktok.com/@mladipirati";
 export const GITHUB_URL = "https://github.com/mladi-pirati";
+export const CONTACT_EMAIL = "info@mladipirati.si";
 
 export const siteMetadata = {
   name: "Mladi Pirati",

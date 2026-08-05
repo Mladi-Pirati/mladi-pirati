@@ -66,7 +66,7 @@ export const heroContent = {
     { text: "ste naveličani korupcije.", accent: null },
     { text: "hočete, da se to spremeni", accent: "spremeni" },
   ],
-  cta: ["Pomdladek", "Piratske stranke Slovenije"],
+  cta: ["Podmladek", "Piratske stranke Slovenije"],
 } as const;
 
 export const heroJoinCardContent = {

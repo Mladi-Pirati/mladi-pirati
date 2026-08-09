@@ -19,11 +19,6 @@ export const REGIONS = [
   "Obalno-kraška",
 ] as const;
 
-export const PARTICIPATION_MODES = [
-  "Podpornik (prejemaš redne novice o delovanju ter vabila na dogodke)",
-  "Aktiven član (se aktivno udejstvuješ)",
-] as const;
-
 export const JOIN_FORM_INTRO = [
   "S to prijavnico se včlaniš v Mlade Pirate, mladinsko organizacijo Piratske stranke Slovenije.",
   "Če si mlajši/-a od 18 let, ti bomo poslali obrazec s soglasjem staršev.",
@@ -36,7 +31,9 @@ export const JOIN_FORM_SUCCESS_COPY = [
 ] as const;
 
 export const JOIN_FIELD_NAMES = [
-  "fullName",
+  "firstName",
+  "lastName",
+  "fullLegalName",
   "dateOfBirth",
   "placeOfBirth",
   "streetAddress",
@@ -44,7 +41,6 @@ export const JOIN_FIELD_NAMES = [
   "residenceRegion",
   "email",
   "phone",
-  "participationMode",
   "discordUsername",
   "motivation",
   "consentsToDataProcessing",
@@ -53,10 +49,11 @@ export const JOIN_FIELD_NAMES = [
 
 export type JoinRequestFieldName = (typeof JOIN_FIELD_NAMES)[number];
 export type RegionOption = (typeof REGIONS)[number];
-export type ParticipationModeOption = (typeof PARTICIPATION_MODES)[number];
 
 export interface JoinRequestPayload {
-  fullName: string;
+  firstName: string;
+  lastName: string;
+  fullLegalName: string;
   dateOfBirth: string;
   placeOfBirth: string;
   streetAddress: string;
@@ -64,7 +61,6 @@ export interface JoinRequestPayload {
   residenceRegion: string;
   email: string;
   phone: string;
-  participationMode: string;
   discordUsername: string;
   motivation: string;
   consentsToDataProcessing: boolean;
@@ -79,7 +75,9 @@ export function normalizeJoinRequestInput(
   source: Record<string, unknown>,
 ): JoinRequestPayload {
   return {
-    fullName: getString(source.fullName),
+    firstName: getString(source.firstName),
+    lastName: getString(source.lastName),
+    fullLegalName: getString(source.fullLegalName),
     dateOfBirth: getString(source.dateOfBirth),
     placeOfBirth: getString(source.placeOfBirth),
     streetAddress: getString(source.streetAddress),
@@ -87,7 +85,6 @@ export function normalizeJoinRequestInput(
     residenceRegion: getString(source.residenceRegion),
     email: getString(source.email),
     phone: getString(source.phone),
-    participationMode: getString(source.participationMode),
     discordUsername: getString(source.discordUsername),
     motivation: getString(source.motivation),
     consentsToDataProcessing: getBoolean(source.consentsToDataProcessing),
@@ -103,10 +100,22 @@ export function validateJoinRequestInput(
   const birthDate = parseIsoDate(data.dateOfBirth);
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (data.fullName.length < 2) {
-    fieldErrors.fullName = "Vnesi ime in priimek.";
-  } else if (data.fullName.length > 160) {
-    fieldErrors.fullName = "Ime in priimek naj bo krajše od 160 znakov.";
+  if (data.firstName.length < 2) {
+    fieldErrors.firstName = "Vnesi ime.";
+  } else if (data.firstName.length > 80) {
+    fieldErrors.firstName = "Ime naj bo krajše od 80 znakov.";
+  }
+
+  if (data.lastName.length < 2) {
+    fieldErrors.lastName = "Vnesi priimek.";
+  } else if (data.lastName.length > 80) {
+    fieldErrors.lastName = "Priimek naj bo krajši od 80 znakov.";
+  }
+
+  if (data.fullLegalName.length < 1) {
+    fieldErrors.fullLegalName = "Vnesi polno pravno ime.";
+  } else if (data.fullLegalName.length > 200) {
+    fieldErrors.fullLegalName = "Polno pravno ime naj bo krajše od 200 znakov.";
   }
 
   if (!birthDate) {
@@ -147,14 +156,6 @@ export function validateJoinRequestInput(
     fieldErrors.phone = "Telefonska številka naj vsebuje vsaj 5 znakov.";
   } else if (data.phone.length > 40) {
     fieldErrors.phone = "Telefonska številka naj bo krajša od 40 znakov.";
-  }
-
-  if (
-    !PARTICIPATION_MODES.includes(
-      data.participationMode as ParticipationModeOption,
-    )
-  ) {
-    fieldErrors.participationMode = "Izberi obliko sodelovanja.";
   }
 
   if (data.discordUsername.length > 120) {

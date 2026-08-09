@@ -1,5 +1,5 @@
 export interface NavItem {
-  href: `#${string}`;
+  href: string;
   label: string;
   highlighted?: boolean;
 }
@@ -34,6 +34,7 @@ export const DISCORD_URL = "https://discord.gg/jqS7QFpc2C";
 export const INSTAGRAM_URL = "https://www.instagram.com/mladipiratisi/";
 export const TIKTOK_URL = "https://www.tiktok.com/@mladipirati";
 export const GITHUB_URL = "https://github.com/mladi-pirati";
+export const CONTACT_EMAIL = "info@mladipirati.si";
 
 export const siteMetadata = {
   name: "Mladi Pirati",
@@ -53,6 +54,7 @@ export const siteMetadata = {
 export const navigationItems: NavItem[] = [
   { href: "#o-nas", label: "O nas" },
   { href: "#program", label: "Program" },
+  { href: "/shop", label: "Shop" },
   { href: "#hero", label: "Pridruži se", highlighted: true },
 ];
 
@@ -64,7 +66,7 @@ export const heroContent = {
     { text: "ste naveličani korupcije.", accent: null },
     { text: "hočete, da se to spremeni", accent: "spremeni" },
   ],
-  cta: ["Pomdladek", "Piratske stranke Slovenije"],
+  cta: ["Podmladek", "Piratske stranke Slovenije"],
 } as const;
 
 export const heroJoinCardContent = {
@@ -121,6 +123,14 @@ export const programContent = {
         "Želimo odločanje, ki je preverljivo, razumljivo in odprto za javnost, ne samo za insajderje.",
     },
   ] satisfies ProgramItem[],
+} as const;
+
+export const shopContent = {
+  title: "Shop",
+  description: "Nakupuj uradne Mladi Pirati izdelke.",
+  items: [
+    { name: "T-shirt", price: "25 €" },
+  ],
 } as const;
 
 export const footerLinks: FooterLink[] = [

@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { footerLinks, siteMetadata, socialLinks } from "../config/site";
+import { CONTACT_EMAIL, footerLinks, siteMetadata, socialLinks } from "../config/site";
 ---
 
 <footer class="bg-white/3">
@@ -36,26 +36,35 @@ import { footerLinks, siteMetadata, socialLinks } from "../config/site";
         &copy; 2018-{new Date().getFullYear()} {siteMetadata.shortName}. Vse pravice pridrzane.
       </p>
 
-      {
-        socialLinks.length > 0 && (
-          <ul aria-label="Družbena omrežja" class="m-0 flex list-none gap-3 p-0">
-            {socialLinks.map((link) => (
-              <li>
-                <a
-                  aria-label={link.label}
-                  class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.14] bg-white/3 text-white/72 transition-[background,border-color,color,transform] duration-150 ease-in hover:-translate-y-px hover:border-white/32 hover:bg-white/8 hover:text-white focus-visible:border-white/32 focus-visible:bg-white/8 focus-visible:text-white"
-                  href={link.href}
-                  rel="noreferrer"
-                  target="_blank"
-                  title={link.label}
-                >
-                  <Icon aria-hidden="true" class="h-4.5 w-4.5" name={link.icon} />
-                </a>
-              </li>
-            ))}
-          </ul>
-        )
-      }
+      <div class="flex flex-wrap items-center gap-4">
+        <a
+          class="text-[0.8125rem] text-white/72 transition-colors hover:text-accent focus-visible:text-accent"
+          href={`mailto:${CONTACT_EMAIL}`}
+        >
+          {CONTACT_EMAIL}
+        </a>
+
+        {
+          socialLinks.length > 0 && (
+            <ul aria-label="Družbena omrežja" class="m-0 flex list-none gap-3 p-0">
+              {socialLinks.map((link) => (
+                <li>
+                  <a
+                    aria-label={link.label}
+                    class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.14] bg-white/3 text-white/72 transition-[background,border-color,color,transform] duration-150 ease-in hover:-translate-y-px hover:border-white/32 hover:bg-white/8 hover:text-white focus-visible:border-white/32 focus-visible:bg-white/8 focus-visible:text-white"
+                    href={link.href}
+                    rel="noreferrer"
+                    target="_blank"
+                    title={link.label}
+                  >
+                    <Icon aria-hidden="true" class="h-4.5 w-4.5" name={link.icon} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
     </div>
   </div>
 </footer>

@@ -1,0 +1,99 @@
+---
+import ItemSheet from "../components/ItemSheet.astro";
+import ShopItemCard from "../components/ShopItemCard.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { shopContent, siteMetadata } from "../config/site";
+import type { ShopItem } from "../internal/shop";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+let items: ShopItem[] = [];
+let fetchError = false;
+
+try {
+  const res = await fetch(`${import.meta.env.QUARTERMASTER_API}/api/items`);
+  if (res.ok) {
+    const all: ShopItem[] = await res.json();
+    items = all.filter((i) => i.status === "active");
+  } else {
+    fetchError = true;
+  }
+} catch {
+  fetchError = true;
+}
+---
+
+<BaseLayout
+  title="Shop"
+  description={shopContent.description}
+  canonicalPath="/shop"
+>
+  <div class="flex min-h-screen flex-col">
+  <header class="flex h-(--nav-height) items-center border-b border-border px-(--page-gutter)">
+    <a href="/" class="flex items-center gap-3 text-text no-underline" aria-label="Domov">
+      <img
+        src="/logos/mladi-pirati-logo.png"
+        alt={siteMetadata.shortName}
+        width="36"
+        height="36"
+        class="h-9 w-9 object-contain"
+      />
+    </a>
+  </header>
+
+  <main id="main-content" class="flex-1">
+    <section
+      class="mx-auto w-full max-w-(--container-width) px-(--page-gutter) py-20"
+      aria-labelledby="shop-title"
+    >
+      <h1
+        class="mb-10 font-mono text-3xl font-bold text-text"
+        id="shop-title"
+      >
+        <span class="text-accent">Shop</span>
+      </h1>
+
+      {
+        fetchError ? (
+          <p class="font-mono text-sm text-text-muted">
+            Prišlo je do napake pri nalaganju izdelkov. Poskusi znova kasneje.
+          </p>
+        ) : items.length === 0 ? (
+          <p class="font-mono text-sm text-text-muted">
+            Trenutno ni na voljo nobenih izdelkov.
+          </p>
+        ) : (
+          <ul
+            data-shop-grid
+            class="m-0 list-none p-0 grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-6"
+          >
+            {items.map((item) => (
+              <li>
+                <ShopItemCard
+                  id={item.id}
+                  name={item.name}
+                  price={item.price}
+                  imageUrl={
+                    item.images.sort((a, b) => a.sortOrder - b.sortOrder)[0]
+                      ?.url
+                  }
+                />
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </section>
+  </main>
+
+  <SiteFooter />
+  </div>
+
+  <ItemSheet />
+
+  <script is:inline type="application/json" id="shop-items" set:html={JSON.stringify(items)} />
+
+  <script>
+    import { initShopPage } from "../scripts/shop/item-sheet";
+    initShopPage();
+  </script>
+</BaseLayout>

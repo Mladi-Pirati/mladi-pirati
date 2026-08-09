@@ -1,0 +1,44 @@
+---
+export interface Props {
+  id: string;
+  name: string;
+  price: string;
+  imageUrl: string | undefined;
+}
+
+const { id, name, price, imageUrl } = Astro.props;
+---
+
+<button
+  type="button"
+  data-item-id={id}
+  class="group flex w-full cursor-pointer flex-col gap-0 rounded border border-border bg-panel text-left transition-colors hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+>
+  <div
+    class="relative w-full overflow-hidden rounded-t"
+    style="aspect-ratio: 1"
+  >
+    {
+      imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={name}
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+      ) : (
+        <div
+          class="flex h-full w-full items-center justify-center bg-border font-mono text-sm text-text-muted"
+          aria-label={`Slika: ${name}`}
+          role="img"
+        >
+          [ slika ]
+        </div>
+      )
+    }
+  </div>
+  <div class="flex items-baseline justify-between gap-4 p-5">
+    <span class="font-mono text-base font-bold text-text">{name}</span>
+    <span class="font-mono text-base text-accent">{price} €</span>
+  </div>
+</button>

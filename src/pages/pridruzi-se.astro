@@ -6,7 +6,6 @@ import {
   JOIN_FORM_INTRO,
   JOIN_FORM_PATH,
   JOIN_REQUEST_API_PATH,
-  PARTICIPATION_MODES,
   PROGRAM_URL,
   REGIONS,
   STATUTE_URL,
@@ -129,22 +128,57 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                   </div>
 
                   <div class="grid grid-cols-2 gap-4 max-[720px]:grid-cols-1">
-                    <div class={fieldWideClass} data-field-wrapper="fullName">
-                      <label class={labelClass} for="fullName">
-                        Ime in priimek *
+                    <div class={fieldClass} data-field-wrapper="firstName">
+                      <label class={labelClass} for="firstName">
+                        Želeno Ime *
+                      </label>
+                      <input
+                        autocomplete="given-name"
+                        class={controlClass}
+                        id="firstName"
+                        maxlength="80"
+                        minlength="2"
+                        name="firstName"
+                        placeholder="npr. Ana"
+                        required
+                        type="text"
+                      />
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="firstName"></p>
+                    </div>
+
+                    <div class={fieldClass} data-field-wrapper="lastName">
+                      <label class={labelClass} for="lastName">
+                        Priimek *
+                      </label>
+                      <input
+                        autocomplete="family-name"
+                        class={controlClass}
+                        id="lastName"
+                        maxlength="80"
+                        minlength="2"
+                        name="lastName"
+                        placeholder="npr. Novak"
+                        required
+                        type="text"
+                      />
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="lastName"></p>
+                    </div>
+
+                    <div class={fieldWideClass} data-field-wrapper="fullLegalName">
+                      <label class={labelClass} for="fullLegalName">
+                        Polno pravno ime *
                       </label>
                       <input
                         autocomplete="name"
                         class={controlClass}
-                        id="fullName"
-                        maxlength="160"
-                        minlength="2"
-                        name="fullName"
+                        id="fullLegalName"
+                        maxlength="200"
+                        name="fullLegalName"
                         placeholder="npr. Ana Novak"
                         required
                         type="text"
                       />
-                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="fullName"></p>
+                      <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="fullLegalName"></p>
                     </div>
 
                     <div class={fieldClass} data-field-wrapper="dateOfBirth">
@@ -300,35 +334,14 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                     <p class="m-0 text-lg text-white/24">3</p>
                     <div>
                       <h3 class="mb-1.5 text-[1.2rem]" id="join-participation-title">
-                        Sodelovanje
+                        Povezava z nami
                       </h3>
                       <p class={bodyCopyClass}>
-                        Povej nam, kako želiš sodelovati in kako te najlažje
-                        vključimo naprej.
+                        Dodaj Discord uporabniško ime in nam na kratko povej,
+                        zakaj se želiš pridružiti.
                       </p>
                     </div>
                   </div>
-
-                  <fieldset class="group flex flex-col gap-2" data-field-wrapper="participationMode">
-                    <legend class={`${labelClass} pb-2`}>Oblika sodelovanja *</legend>
-                    <div class="grid gap-3">
-                      {
-                        PARTICIPATION_MODES.map((mode) => (
-                          <label class={choiceClass}>
-                            <input
-                              class="mt-0.75 accent-accent"
-                              name="participationMode"
-                              required
-                              type="radio"
-                              value={mode}
-                            />
-                            <span class="text-[0.95rem] leading-[1.6] text-text-soft">{mode}</span>
-                          </label>
-                        ))
-                      }
-                    </div>
-                    <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="participationMode"></p>
-                  </fieldset>
 
                   <div class="grid grid-cols-2 gap-4 max-[720px]:grid-cols-1">
                     <div class={fieldWideClass} data-field-wrapper="discordUsername">
@@ -347,8 +360,8 @@ const helperLinkClass = "text-accent transition-colors hover:text-accent-strong"
                         type="text"
                       />
                       <p class="m-0 text-[0.92rem] text-text-soft">
-                        Če želiš aktivno sodelovati, vpis ni obvezen; aktivni člani
-                        v Discord skupini pridobijo dostop do več kanalov.
+                        Vpis ni obvezen; v Discord skupini ti lahko uredimo
+                        dostop do dodatnih kanalov.
                       </p>
                       <p class="m-0 text-[0.85rem] leading-normal text-danger empty:hidden" data-error-for="discordUsername"></p>
                     </div>
